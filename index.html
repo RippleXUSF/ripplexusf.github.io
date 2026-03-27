@@ -357,6 +357,134 @@
     .card:nth-child(3) { animation: up 0.4s 0.62s ease both; }
     .contact-strip { animation: up 0.4s 0.70s ease both; }
 
+
+
+
+
+    /* ── SOCIAL GOOD ── */
+    .social-good-section {
+      max-width: 960px; margin: 48px auto 0; padding: 0 32px;
+    }
+    .social-good-wrap {
+      border: 1.5px solid var(--rule);
+      border-radius: 6px;
+      background: var(--paper);
+      padding: 30px 32px 32px;
+    }
+    .social-good-kicker {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .social-good-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.2vw, 38px);
+      line-height: 1.08; letter-spacing: -0.02em; color: var(--ink);
+      margin-bottom: 14px;
+    }
+    .social-good-intro {
+      max-width: 760px;
+      font-size: 14px; line-height: 1.8; color: var(--ink-2); font-weight: 300;
+    }
+    .social-good-grid {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .social-good-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      border: 1.5px solid var(--rule);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.35);
+      padding: 20px 20px 18px;
+      transition: border-color 0.2s, transform 0.2s, background 0.2s;
+    }
+    .social-good-card:hover {
+      border-color: var(--green);
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.6);
+    }
+    .social-good-card-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 16px; font-weight: 600; color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .social-good-card-desc {
+      font-size: 13px; line-height: 1.7; color: var(--ink-2); font-weight: 300;
+    }
+    .social-good-link {
+      margin-top: 12px;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--green);
+      display: inline-block;
+    }
+
+    /* ── FAQ ── */
+    .faq-section {
+      max-width: 960px; margin: 44px auto 0; padding: 0 32px;
+    }
+    .faq-wrap {
+      background: transparent;
+      overflow: visible;
+    }
+    .faq-header {
+      padding: 0 0 24px;
+      border-bottom: 1px solid var(--rule);
+      background: transparent;
+    }
+    .faq-kicker {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .faq-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.2vw, 38px);
+      line-height: 1.08; letter-spacing: -0.02em; color: var(--ink);
+      text-align: center;
+    }
+    .faq-header p {
+      margin-top: 10px; max-width: 720px;
+      font-size: 13px; line-height: 1.7; color: var(--ink-2); font-weight: 300;
+    }
+    .faq-list {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+    .faq-item {
+      padding: 24px 0;
+      border-top: 1px solid var(--rule);
+    }
+    .faq-item:first-child { border-top: none; }
+    .faq-row {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    .faq-row + .faq-row {
+      margin-top: 12px;
+    }
+    .faq-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--green);
+      line-height: 1;
+      letter-spacing: 0.01em;
+    }
+    .faq-question {
+      font-family: 'Sora', sans-serif;
+      font-size: 17px; font-weight: 600; letter-spacing: -0.02em;
+      color: var(--ink); line-height: 1.45;
+    }
+    .faq-answer {
+      font-size: 13px; color: var(--ink-2); font-weight: 300; line-height: 1.75;
+    }
+
     @media (max-width: 700px) {
       .hero { padding-top: 48px; }
       .cards { grid-template-columns: 1fr; }
@@ -364,6 +492,9 @@
       .contact-box { flex-direction: column; align-items: flex-start; }
       .partner-box { flex-direction: column; align-items: center; }
       .box-meta { border-left: none; border-top: 1px solid var(--rule); padding-left: 0; padding-top: 20px; width: 100%; }
+      .faq-item { grid-template-columns: 1fr; gap: 8px; }
+      .faq-label { padding-top: 0; }
+      .social-good-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -418,7 +549,7 @@
   <!-- INTRO-->
 
   <div style="max-width: 960px; margin: 40px auto 0; padding: 0 32px; text-align: center;">
-    <h2 style="text-align: center;">
+    <h2 style="text-align: center; font-family: 'Playfair Display', serif; font-size: clamp(28px, 3.2vw, 38px); line-height: 1.08; letter-spacing: -0.02em;">
       About the Hackathon
     </h2>
     <p style="font-family: 'Sora', sans-serif; font-size: 14px; color: var(--ink-2); line-height: 1.7; font-weight: 300; text-align: center; max-width: 660px; margin: 0 auto;">
@@ -431,18 +562,129 @@
 
   </div>
 
+
+
+
     <div style="text-align: center; margin-top: 40px;">
     <a class="cta-btn" href="https://docs.google.com/forms/d/1RQtfi35Cp8zJoLTgAKtTvwExNnpoVLFev6a7JWRGeck/viewform?ts=69b1d0c8&edit_requested=true" target="_blank" rel="noopener noreferrer">
       Register Now <span class="arrow">↗</span>
     </a>
   </div>
 
-  <!-- DIVIDER -->
-  <div class="divider">
+
+
+  <!-- BLOCKCHAIN FOR SOCIAL GOOD -->
+  <section class="social-good-section">
+    <div class="social-good-wrap">
+      <div class="social-good-kicker">Inspiration</div>
+      <h2 class="social-good-title">What counts for Social Good?</h2>
+      <p class="social-good-intro">
+Blockchain for social good can take many forms. To help spark ideas, we have prepared a few real-world examples below for your reference.
+      </p>
+      <div class="social-good-grid">
+        <a class="social-good-card" href="https://innovation.wfp.org/project/building-blocks" target="_blank" rel="noopener noreferrer">
+          <div class="social-good-card-title">Aid Distribution</div>
+          <div class="social-good-card-desc">Uses blockchain to coordinate humanitarian aid distribution and protect beneficiary data.</div>
+          <span class="social-good-link">View ↗</span>
+        </a>
+        <a class="social-good-card" href="https://www.provenance.org/news-insights/blockchain-the-solution-for-transparency-in-product-supply-chains" target="_blank" rel="noopener noreferrer">
+          <div class="social-good-card-title">Supply Chain Transparency</div>
+          <div class="social-good-card-desc">Uses blockchain to verify product sourcing, authenticity, and sustainability across supply chains.</div>
+          <span class="social-good-link">View ↗</span>
+        </a>
+        <a class="social-good-card" href="https://legacy.provenance.org/tracking-tuna-on-the-blockchain" target="_blank" rel="noopener noreferrer">
+          <div class="social-good-card-title">Sustainable Fishing</div>
+          <div class="social-good-card-desc">Traces tuna from catch to consumer to support sustainable fishing and supply chain visibility.</div>
+          <span class="social-good-link">View ↗</span>
+        </a>
+        <a class="social-good-card" href="https://reachalliance.org/reports/blockchain-for-social-impact-empowering-vulnerable-communities-against-climate-shocks-in-nepal/" target="_blank" rel="noopener noreferrer">
+          <div class="social-good-card-title">Climate Resilience</div>
+          <div class="social-good-card-desc">Delivers early flood warnings and anticipatory cash assistance to vulnerable communities before climate shocks hit.</div>
+          <span class="social-good-link">View ↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="faq-wrap">
+      <div class="faq-header">
+        <h2>Hackathon Q&amp;A</h2>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-row">
+            <div class="faq-label">Q:</div>
+            <div class="faq-question">Do I need to build a complete, fully functional product by the end of the hackathon?</div>
+          </div>
+          <div class="faq-row">
+            <div class="faq-label">A:</div>
+            <div class="faq-answer-block">
+              <p class="faq-answer">Given the time constraints of the hackathon, we do not expect participants to produce a fully coded and functional product by the end of the event. 
+                                    Having a strong idea and putting together a solid prototype or project skeleton is already enough.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-row">
+            <div class="faq-label">Q:</div>
+            <div class="faq-question">Would I mainly be expected to identify legal use cases or fintech applications for Ripple?</div>
+          </div>
+          <div class="faq-row">
+            <div class="faq-label">A:</div>
+            <div class="faq-answer-block">
+              <p class="faq-answer">Not necessarily. As long as it relates to social good in a broad sense, it would be within scope. The specific direction is largely up to your team and the kind of issue you want to address.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-row">
+            <div class="faq-label">Q:</div>
+            <div class="faq-question">What if I have limited experience in coding?</div>
+          </div>
+          <div class="faq-row">
+            <div class="faq-label">A:</div>
+            <div class="faq-answer-block">
+              <p class="faq-answer">
+                This event brings together students from both the School of Law and the Computer Science, teams will have representatives from both schools. 
+                The interdisciplinary nature of the event is specifically meant to allow people with different strengths to support one another, regardless of coding background.
+                <p class="faq-answer">Participants are also welcome to use Claude in ways that are permitted under the rules of the School of Law.</p>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-row">
+            <div class="faq-label">Q:</div>
+            <div class="faq-question">Will there be technical support during the event?</div>
+          </div>
+          <div class="faq-row">
+            <div class="faq-label">A:</div>
+            <div class="faq-answer-block">
+              <p class="faq-answer">Yes. Ripple engineers and CS professors will be there to help.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MORE -->
+  <div style="max-width: 960px; margin: 44px auto 0; padding: 0 32px;">
+    <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(28px, 3.2vw, 38px); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); text-align: center;">More</h2>
+    <hr style="border: none; border-top: 1px solid var(--rule); margin-top: 24px; width: 40%; margin-left: auto; margin-right: auto;" />
+  </div>
+  <div class="divider" style="margin-top: 0;">
   </div>
 
   <!-- CARDS -->
-  <div class="cards">
+  <div class="cards" style="padding-top: 34px;">
     <a class="card" href="https://ripplexusf.github.io/schedule/" target="_self" rel="noopener noreferrer">
       <div class="card-title">Schedule</div>
       <div class="card-desc">The full two-day agenda.</div>
@@ -457,7 +699,7 @@
 
     <a class="card"  target="_self" rel="noopener noreferrer">
       <div class="card-title">Contact Us</div>
-      <div class="card-desc">Any question? Please contact: <br> <br>Dr. EJ Jung<br>ejung2@usfca.edu</div>
+      <div class="card-desc">Any question? Please contact: <br> <br>Dr. EJ Jung<br><span class="__cf_email__" data-cfemail="c1a4abb4afa6f381b4b2a7a2a0efa4a5b4">[email&#160;protected]</span></div>
     </a>
   </div>
 
@@ -465,7 +707,4 @@
   <footer>
     <div class="footer-inner">
       <div class="footer-l">
-        <img src="test2.png" alt="USF Law" style="height: 48px; width: auto;" />
-      </div>
-    </div>
-  </footer>
+        <img src="test2.pn
