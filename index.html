@@ -38,7 +38,8 @@
     }
     .topbar-inner {
       max-width: 960px; margin: 0 auto; padding: 11px 32px;
-      display: flex; align-items: center; justify-content: space-between;
+      display: grid; align-items: center;
+      grid-template-columns: 1fr 1fr;
     }
     .topbar-left { display: flex; align-items: center; gap: 12px; }
     .topbar-name {
@@ -154,20 +155,14 @@
       align-items: center;
       gap: 40px;
     }
-    .partner-box::before {
-      content: '✦';
-      position: absolute; top: -10px; left: 50%;
-      transform: translateX(-50%);
-      background: var(--paper); padding: 0 8px;
-      color: var(--gold); font-size: 12px;
-    }
 
-    .partner-logos {
+    .logos {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 24px;
       flex-shrink: 0;
+      justify-self: start;
     }
 
     .usf-block {
@@ -177,7 +172,7 @@
       width: 72px; height: auto;
     }
 
-    .partner-x {
+    .logos_divider {
       font-family: 'Playfair Display', serif;
       font-size: 22px; color: white; flex-shrink: 0;
     }
@@ -335,7 +330,7 @@
     footer { background: var(--green); border-top: 3px solid var(--gold); margin-top: 60px; }
     .footer-inner {
       max-width: 960px; margin: 0 auto; padding: 26px 32px;
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex; align-items: center; justify-content: center;
       flex-wrap: wrap; gap: 10px;
     }
     .footer-l {
@@ -377,18 +372,18 @@
   <!-- TOPBAR -->
   <div class="topbar">
     <div class="topbar-inner">
-      <div class="partner-logos">
+      <div class="logos">
         <div class = "usf-block">
           <img class="usf-shield-img" src="university-of-san-francisco.jpg" alt="University of San Francisco" />
         </div>
-        <div class="partner-x">|</div>
+        <div class="logos_divider">|</div>
          <div class="ripple-block">
           <div class="ripple-logo-wrap">
             <img src="full-ripple-logo.png" alt="Ripple" />
           </div>
          </div>
       </div>
-      <div style = "display: flex; align-items: center; gap: 24px;">
+    <div style = "display: flex; align-items: center; gap: 24px; justify-self: end;">
       <a href="https://ripplexusf.github.io/schedule/"
         target = "_self" rel="noopener noreferrer"
          style="font-family: 'IBM Plex Mono', monospace; font-size: 16px;
@@ -397,18 +392,17 @@
                 font-weight:600">
       Schedule
       </a>
-      <div class="dropdown">
-        <a class="dropdown-trigger">Resources</a>
-        <div class="dropdown-menu">
-          <a href="https://linktr.ee/RippleDevRel" target="_blank" rel="noopener noreferrer">Ripple DevRel</a>
-          <a href="https://learn.xrpl.org/" target="_blank" rel="noopener noreferrer">Learn XRPL</a>
-          <a href="https://www.xrpl-commons.org/" target="_blank" rel="noopener noreferrer">XRPL Commons</a>
-          <a href="https://ripplexusf.github.io/links/Ripple_Lunch_Talk.pdf" target="_blank" rel="noopener noreferrer">Lunch Talk Slides</a>
-        </div>
-      </div>
+      <a href="https://ripplexusf.github.io/links/"
+        target = "_self" rel="noopener noreferrer"
+         style="font-family: 'IBM Plex Mono', monospace; font-size: 16px;
+                color: rgba(255,255,255,0.9); letter-spacing: 0.07em;
+                text-transform: uppercase; text-decoration: none;
+                font-weight:600">
+      Resources
+      </a>
 
-      </div>
     </div>
+   </div>
   </div>
 
   <!-- HERO -->
@@ -470,4 +464,8 @@
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
-      <div class="footer-l"><strong>University of San Francisco</strong> ·
+      <div class="footer-l">
+        <img src="test2.png" alt="USF Law" style="height: 48px; width: auto;" />
+      </div>
+    </div>
+  </footer>
