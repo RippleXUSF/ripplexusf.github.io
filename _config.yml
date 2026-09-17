@@ -4,3 +4,4 @@ theme: minima
 exclude:
   - migrate.sh
   - .superpowers/
+  - MONOREPO-PLAN.md
