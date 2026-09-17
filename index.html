@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ripple for Social Good — USF × Ripple</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Sora:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:   #00543c;
+      --gold:    #c8922a;
+      --gold-lt: #f5c84a;
+      --cream:   #faf8f4;
+      --paper:   #f2ece0;
+      --ink:     #141210;
+      --ink-2:   #4a4540;
+      --ink-3:   #9a9288;
+      --rule:    #ddd5c5;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Sora', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar { background: var(--green); border-bottom: 3px solid var(--gold); }
+    .topbar-inner {
+      max-width: 960px; margin: 0 auto; padding: 11px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .topbar-name {
+      font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.9);
+      letter-spacing: 0.07em; text-transform: uppercase; line-height: 1.5;
+    }
+    .topbar-name span { display: block; font-weight: 300; color: rgba(255,255,255,0.5); font-size: 10px; }
+    .topbar-nav { display: flex; align-items: center; gap: 24px; }
+    .topbar-nav a {
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+      color: rgba(255,255,255,0.9); letter-spacing: 0.07em;
+      text-transform: uppercase; text-decoration: none; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .topbar-nav a:hover { color: var(--gold-lt); }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--green);
+      border-bottom: 3px solid var(--gold);
+      padding: 80px 32px 72px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -60px; right: -60px;
+      width: 420px; height: 420px; border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.06);
+    }
+    .hero::after {
+      content: ''; position: absolute; top: 20px; right: 20px;
+      width: 280px; height: 280px; border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.04);
+    }
+    .hero-inner { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--gold-lt); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 1.5px; background: var(--gold); }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(38px, 5.5vw, 62px);
+      font-weight: 900; line-height: 1.05;
+      letter-spacing: -0.02em; color: #fff;
+      margin-bottom: 20px; max-width: 640px;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold-lt); }
+
+    .hero-sub {
+      font-size: 15px; color: rgba(255,255,255,0.6);
+      line-height: 1.7; font-weight: 300;
+      max-width: 500px; margin-bottom: 44px;
+    }
+
+    .hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
+    .stat { display: flex; flex-direction: column; gap: 4px; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px; font-weight: 900;
+      color: var(--gold-lt); line-height: 1; letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-family: 'IBM Plex Mono', monospace; font-size: 9.5px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4);
+    }
+
+    /* ── CASES ── */
+    .cases {
+      max-width: 960px; margin: 0 auto; padding: 64px 32px 80px;
+    }
+
+    .cases-eyebrow {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 40px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .cases-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+    .case-list { display: flex; flex-direction: column; }
+
+    .case-item {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 28px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule);
+      position: relative;
+    }
+    .case-item:first-child { border-top: 1px solid var(--rule); }
+
+    .case-item::before {
+      content: '';
+      position: absolute; left: -32px; right: -32px; top: 0; bottom: 0;
+      background: var(--paper); opacity: 0; transition: opacity 0.18s; z-index: 0;
+    }
+    .case-item:hover::before { opacity: 1; }
+    .case-item > * { position: relative; z-index: 1; }
+
+    .case-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px; font-weight: 700; font-style: italic;
+      color: var(--rule); line-height: 1; text-align: center;
+      padding-top: 2px; transition: color 0.2s;
+    }
+    .case-item:hover .case-num { color: var(--gold); }
+
+    .case-tag {
+      font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink-3); margin-bottom: 5px;
+    }
+    .case-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px; font-weight: 700; color: var(--ink);
+      margin-bottom: 6px; letter-spacing: -0.01em;
+      transition: color 0.2s;
+    }
+    .case-item:hover .case-title { color: var(--green); }
+    .case-desc {
+      font-size: 13.5px; color: var(--ink-3);
+      line-height: 1.65; font-weight: 300; max-width: 580px;
+    }
+    .case-desc strong { font-weight: 600; color: var(--ink-2); }
+
+    /* ── CTA ── */
+    .cta { background: var(--ink); padding: 72px 32px; }
+    .cta-inner {
+      max-width: 960px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 48px; align-items: center;
+    }
+    .cta-eyebrow {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 14px;
+    }
+    .cta h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 3.5vw, 38px); font-weight: 900;
+      line-height: 1.1; letter-spacing: -0.02em; color: #fff; margin-bottom: 12px;
+    }
+    .cta h2 em { font-style: italic; color: var(--gold-lt); }
+    .cta p { font-size: 13.5px; color: rgba(255,255,255,0.45); line-height: 1.7; font-weight: 300; max-width: 440px; }
+    .cta-buttons { display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; }
+    .btn {
+      display: inline-block; padding: 13px 28px; border-radius: 4px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      text-decoration: none; text-align: center;
+      font-family: 'IBM Plex Mono', monospace;
+      transition: transform 0.2s, opacity 0.2s; white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+    .btn-primary { background: var(--gold); color: var(--ink); }
+    .btn-secondary { background: transparent; color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.2); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--green); border-top: 3px solid var(--gold); }
+    .footer-inner {
+      max-width: 960px; margin: 0 auto; padding: 26px 32px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    }
+    .footer-l { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.5); }
+    .footer-l strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+    .footer-r { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.3); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes up {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .topbar     { animation: up 0.4s 0.05s ease both; }
+    .hero-inner { animation: up 0.6s 0.15s ease both; }
+    .case-item:nth-child(1) { animation: up 0.4s 0.3s ease both; }
+    .case-item:nth-child(2) { animation: up 0.4s 0.4s ease both; }
+    .case-item:nth-child(3) { animation: up 0.4s 0.5s ease both; }
+    .case-item:nth-child(4) { animation: up 0.4s 0.6s ease both; }
+    .case-item:nth-child(5) { animation: up 0.4s 0.7s ease both; }
+
+    @media (max-width: 700px) {
+      .hero-stats { gap: 20px; }
+      .cta-inner { grid-template-columns: 1fr; }
+      .cta-buttons { flex-direction: row; flex-wrap: wrap; }
+      .topbar-nav a { font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-name">
+        University of San Francisco
+        <span>Computer Science</span>
+      </div>
+      <div class="topbar-nav">
+        <a href="https://ripplexusf.github.io/" target="_self">Home</a>
+        <a href="https://ripplexusf.github.io/schedule/" target="_self">Schedule</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Ripple for Social Good</div>
+      <h1>Code that<br /><em>changes lives.</em></h1>
+      <p class="hero-sub">Real projects. Real impact. Here's what developers built with blockchain — and what you can build next.</p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">$555M</span><span class="stat-label">Aid distributed on-chain</span></div>
+        <div class="stat"><span class="stat-num">1M+</span><span class="stat-label">Refugees served</span></div>
+        <div class="stat"><span class="stat-num">300+</span><span class="stat-label">Financial institutions</span></div>
+        <div class="stat"><span class="stat-num">&lt;1%</span><span class="stat-label">Transaction fees</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CASES -->
+  <div class="cases">
+    <div class="cases-eyebrow">Real-World Impact</div>
+    <div class="case-list">
+
+      <div class="case-item">
+        <div class="case-num">01</div>
+        <div>
+          <div class="case-tag">Banking · Europe &amp; Asia</div>
+          <div class="case-title">Santander &amp; SBI Holdings</div>
+          <div class="case-desc">Santander's One Pay FX sends money from the UK to Spain in seconds. SBI Holdings uses XRP across Asia. Traditional remittances cost <strong>5–10% in fees</strong> — Ripple brings that under 1%, saving families hundreds of dollars a year.</div>
+        </div>
+      </div>
+
+      <div class="case-item">
+        <div class="case-num">02</div>
+        <div>
+          <div class="case-tag">Humanitarian Aid · Jordan &amp; Bangladesh</div>
+          <div class="case-title">UN World Food Programme</div>
+          <div class="case-desc">Over <strong>1 million refugees</strong> access food using iris scans tracked on blockchain — no bank account needed. $555M distributed, 25M transactions processed, $3.5M saved in fees. Tamper-proof records that corrupt officials can't touch.</div>
+        </div>
+      </div>
+
+      <div class="case-item">
+        <div class="case-num">03</div>
+        <div>
+          <div class="case-tag">Disaster Response · Nepal</div>
+          <div class="case-title">Rahat — UNICEF Partnership</div>
+          <div class="case-desc">When floods hit Nepal in 2024, the Rahat platform delivered cash to <strong>774 people with disabilities in under 6 hours.</strong> Traditional aid takes days. Over 80,000 lives impacted to date.</div>
+        </div>
+      </div>
+
+      <div class="case-item">
+        <div class="case-num">04</div>
+        <div>
+          <div class="case-tag">Property Rights · Kenya</div>
+          <div class="case-title">Blockchain Land Registry</div>
+          <div class="case-desc">In Kenya, land records are paper-based and easily corrupted. Atlas Kenya and Kenya Land LayBy put titles on blockchain — ownership <strong>can't be altered without your cryptographic signature,</strong> giving marginalized communities legal protection and access to credit.</div>
+        </div>
+      </div>
+
+      <div class="case-item">
+        <div class="case-num">05</div>
+        <div>
+          <div class="case-tag">Supply Chain · Bangladesh</div>
+          <div class="case-title">UNICEF Vaccination Tracking</div>
+          <div class="case-desc">Every dose, every child — recorded immutably. Blockchain prevents double-counting, ensures supply chain integrity, and helps officials identify <strong>exactly where coverage gaps exist.</strong> No more guessing. No more fraud.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-inner">
+      <div>
+        <div class="cta-eyebrow">Your Turn</div>
+        <h2>Build something that <em>actually matters.</em></h2>
+        <p>Every project above was built by developers who learned blockchain, saw a problem, and wrote code. The XRP Ledger is open-source, costs $0.0002 per transaction, and settles in 3 seconds. You already know how to code.</p>
+      </div>
+      <div class="cta-buttons">
+        <a href="https://ripplexusf.github.io/sample_code/" class="btn btn-primary" target="_blank">Start with Sample Code</a>
+        <a href="https://learn.xrpl.org/" class="btn btn-secondary" target="_blank">Learn XRPL</a>
+        <a href="https://livenet.xrpl.org/" class="btn btn-secondary" target="_blank">Live Ledger Explorer ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-l"><strong>University of San Francisco</strong> · CS Dept · Ripple for Social Good</div>
+      <div class="footer-r">usfca.edu · xrpl.org</div>
+    </div>
+  </footer>
+
+</body>
+</html>
