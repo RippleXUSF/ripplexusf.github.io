@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>USF × Ripple — Hackathon Schedule</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Sora:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:   #00543c;
+      --gold:    #c8922a;
+      --gold-lt: #f5c84a;
+      --cream:   #faf8f4;
+      --paper:   #f2ece0;
+      --ink:     #141210;
+      --ink-2:   #4a4540;
+      --ink-3:   #9a9288;
+      --rule:    #ddd5c5;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Sora', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar { background: var(--green); border-bottom: 3px solid var(--gold); }
+    .topbar-inner {
+      max-width: 960px; margin: 0 auto; padding: 11px 32px;
+      display: grid; align-items: center;
+      grid-template-columns: 1fr 1fr;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .topbar-name {
+      font-size: 11px; font-weight: 500;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.07em; text-transform: uppercase; line-height: 1.5;
+    }
+    .topbar-name span {
+      display: block; font-weight: 300;
+      color: rgba(255,255,255,0.5); font-size: 10px;
+    }
+    .xrp-pill {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      color: var(--gold-lt);
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 100px; padding: 3px 11px; letter-spacing: 0.05em;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 960px; 
+      margin: 0 auto;
+      padding: 48px 32px 0;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+      justify-content: flex-end;
+    }
+    .eyebrow::after {
+      display: none
+    }
+    .eyebrow::before {
+      content: ''; height: 1px; width: 40px;
+      background: var(--gold); opacity: 0.45; display: block;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 5vw, 54px);
+      font-weight: 900; line-height: 1.04;
+      letter-spacing: -0.02em; color: var(--ink); margin-bottom: 12px;
+    }
+    h1 .green-line {
+      display: block; font-style: italic;
+      font-weight: 700; color: var(--green);
+    }
+
+    .hero-sub {
+      font-size: 14px; color: var(--ink-3);
+      line-height: 1.7; font-weight: 300;
+    }
+
+    /* ── PARTNER BOX ── */
+    .partner-box {
+      border: 1.5px solid var(--rule);
+      border-radius: 6px;
+      padding: 32px 40px;
+      background: var(--paper);
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-shrink: 0;
+      justify-self: start; 
+    }
+
+    .usf-block {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .usf-shield-img {
+      width: 72px; height: auto;
+    }
+
+    .logos_divider {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; color: white; flex-shrink: 0;
+    }
+
+    .ripple-block {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .ripple-logo-wrap { width: 130px; }
+    .ripple-logo-wrap img { width: 100%; height: auto; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      max-width: 960px; margin: 52px auto 0; padding: 0 32px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .divider hr { flex: 1; border: none; border-top: 1px solid var(--rule); }
+    .divider-label {
+      font-family: 'IBM Plex Mono', monospace; font-size: 9.5px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink-3); white-space: nowrap;
+    }
+
+    /* ── SCHEDULE WRAPPER ── */
+    .schedule { max-width: 960px; margin: 0 auto; padding: 40px 32px 80px; }
+
+    /* ── DAY BLOCK ── */
+    .day-block { margin-bottom: 56px; }
+
+    .day-header {
+      display: flex; align-items: baseline; gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .day-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 54px; font-weight: 700; font-style: italic;
+      color: var(--rule); line-height: 1; flex-shrink: 0;
+      transition: color 0.2s;
+    }
+
+    .day-meta { display: flex; flex-direction: column; gap: 3px; }
+
+    .day-tag {
+      font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .day-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 700;
+      color: var(--ink); letter-spacing: -0.01em;
+    }
+
+    .day-date {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; color: var(--ink-3);
+      margin-top: 2px;
+    }
+
+    /* ── EVENT ROWS ── */
+    .event-list { border-top: 1px solid var(--rule); }
+
+    .event-row {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 24px;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--rule);
+      position: relative;
+    }
+
+    .event-row::before {
+      content: '';
+      position: absolute; left: -32px; right: -32px; top: 0; bottom: 0;
+      background: var(--paper); opacity: 0;
+      transition: opacity 0.18s; z-index: 0;
+    }
+    .event-row:hover::before { opacity: 1; }
+    .event-row > * { position: relative; z-index: 1; }
+
+    .event-time {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px; font-weight: 500;
+      color: var(--ink-3); letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+
+    .event-body { display: flex; flex-direction: column; gap: 2px; }
+
+    .event-name {
+      font-family: 'Sora', sans-serif;
+      font-size: 16px; font-weight: 600;
+      letter-spacing: -0.01em; color: var(--ink);
+      transition: color 0.2s;
+    }
+    .event-row:hover .event-name { color: var(--green); }
+
+    /* special pill for key milestones */
+    .event-pill {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 2px 9px; border-radius: 100px;
+      margin-top: 4px; width: fit-content;
+    }
+    .pill-start  { background: rgba(0, 84, 60, 0.08); color: var(--green); border: 1px solid rgba(0,84,60,0.2); }
+    .pill-open   { background: rgba(200, 146, 42, 0.10); color: var(--gold); border: 1px solid rgba(200,146,42,0.25); }
+    .pill-close  { background: rgba(154, 146, 136, 0.1); color: var(--ink-3); border: 1px solid var(--rule); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--green); border-top: 3px solid var(--gold); }
+    .footer-inner {
+      max-width: 960px; margin: 0 auto; padding: 26px 32px;
+      display: flex; align-items: center; justify-content: center;
+      flex-wrap: wrap; gap: 10px;
+    }
+    .footer-l {
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+      color: rgba(255,255,255,0.5);
+    }
+    .footer-l strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+    .footer-r {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes up {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .topbar      { animation: up 0.4s 0.05s ease both; }
+    .hero-left   { animation: up 0.6s 0.15s ease both; }
+    .partner-box { animation: up 0.6s 0.28s ease both; }
+    .divider     { animation: up 0.4s 0.40s ease both; }
+
+    .day-block:nth-child(1) { animation: up 0.5s 0.38s ease both; }
+    .day-block:nth-child(2) { animation: up 0.5s 0.52s ease both; }
+
+    @media (max-width: 700px) {
+      .hero { grid-template-columns: 1fr; gap: 36px; padding-top: 48px; }
+      .event-row { grid-template-columns: 80px 1fr; gap: 16px; }
+      h1 { font-size: 34px; }
+      .day-number { font-size: 42px; }
+      .xrp-pill { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="logos">
+        <div class = "usf-block">
+          <img class="usf-shield-img" src="university-of-san-francisco.jpg" alt="University of San Francisco" />
+        </div>
+        <div class="logos_divider">|</div>
+         <div class="ripple-block">
+          <div class="ripple-logo-wrap">
+            <img src="full-ripple-logo.png" alt="Ripple" />
+          </div>
+         </div>
+      </div>
+
+      <div style = "display: flex; align-items: center; gap: 24px; justify-self: end;">
+      <a href="https://ripplexusf.github.io/"
+        target = "_self" rel="noopener noreferrer"
+         style="font-family: 'IBM Plex Mono', monospace; font-size: 16px;
+                color: rgba(255,255,255,0.9); letter-spacing: 0.07em;
+                text-transform: uppercase; text-decoration: none;
+                font-weight:600">
+      Home
+      </a>
+      <a href="https://ripplexusf.github.io/links/"
+        target = "_self" rel="noopener noreferrer"
+         style="font-family: 'IBM Plex Mono', monospace; font-size: 16px;
+                color: rgba(255,255,255,0.9); letter-spacing: 0.07em;
+                text-transform: uppercase; text-decoration: none;
+                font-weight:600">
+      Resources
+      </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="eyebrow">March 27–28, 2025</div>
+      <h1>
+        Hackathon
+        <span class="green-line">Schedule</span>
+      </h1>
+      <p class="hero-sub">Two days. One ledger. Build something that matters.</p>
+    </div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="divider">
+    <hr /><span class="divider-label">Run of Show</span><hr />
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="schedule">
+
+    <!-- FRIDAY -->
+    <div class="day-block">
+      <div class="day-header">
+        <div class="day-number">01</div>
+        <div class="day-meta">
+          <div class="day-tag">Day One</div>
+          <div class="day-title">Opening Night</div>
+          <div class="day-date">Friday, March 27</div>
+        </div>
+      </div>
+
+      <div class="event-list">
+
+        <div class="event-row">
+          <div class="event-time">5:00 PM</div>
+          <div class="event-body">
+            <div class="event-name">Check-in &amp; Networking</div>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-time">5:30 PM</div>
+          <div class="event-body">
+            <div class="event-name">Welcome Remarks · XRPL Overview</div>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-time">6:00 PM</div>
+          <div class="event-body">
+            <div class="event-name">Team Formation · Dinner</div>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-time">7:00 PM</div>
+          <div class="event-body">
+            <div class="event-name">Hacking Begins</div>
+            <span class="event-pill pill-start">Hacking starts</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SATURDAY -->
+    <div class="day-block">
+      <div class="day-header">
+        <div class="day-number">02</div>
+        <div class="day-meta">
+          <div class="day-tag">Day Two</div>
+          <div class="day-title">Build Day</div>
+          <div class="day-date">Saturday, March 28</div>
+        </div>
+      </div>
+
+      <div class="event-list">
+
+        <div class="event-row">
+          <div class="event-time">10:00 AM</div>
+          <div class="event-body">
+            <div class="event-name">Morning Check-in · Progress Standups (Breakfast served)</div>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-time">11:00 AM</div>
+          <div class="event-body">
+            <div class="event-name">Ripple Engineer Office Hours</div>
+            <span class="event-pill pill-open">Office hours open</span>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-time">12:00 PM</div>
+          <div class="event-body">
+            <div class="event-name">Lunch</div>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-time">1:00 PM</div>
+          <div class="event-body">
+            <div class="event-name">Office Hours Close · Open Hacking</div>
+            <span class="event-pill pill-close">Office hours close</span>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-time">2:00 PM</div>
+          <div class="event-body">
+            <div class="event-name">Final Build Sprint</div>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-time">3:30 PM</div>
+          <div class="event-body">
+            <div class="event-name">Project Demos start</div>
+            <span class="event-pill pill-start">Submissions due</span>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-time">4:15 PM</div>
+          <div class="event-body">
+            <div class="event-name">Special Guest Ryan Wiliams</div>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-time">4:45 PM</div>
+          <div class="event-body">
+            <div class="event-name">Judging · Awards </div>
+          </div>
+        </div>
+        
+        <div class="event-row">
+          <div class="event-time">5:00 PM</div>
+          <div class="event-body">
+            <div class="event-name">Closing Remarks</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-l">
+        <img src="test2.png" alt="USF Law" style="height: 48px; width: auto;" />
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
