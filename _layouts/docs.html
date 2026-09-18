@@ -120,7 +120,7 @@
 
     /* PROSE CONTENT */
     .prose {
-      background: var(--surface);
+      background: #ffffff;
       border: 1px solid var(--rule);
       border-radius: 6px;
       padding: 40px 48px;
@@ -130,12 +130,12 @@
     .prose h1 {
       font-size: clamp(26px, 3vw, 34px);
       font-weight: 800; line-height: 1.1;
-      letter-spacing: -0.03em; color: var(--ink);
+      letter-spacing: -0.03em; color: #111827;
       margin-bottom: 20px;
     }
     .prose h2 {
       font-size: 20px; font-weight: 700;
-      letter-spacing: -0.02em; color: var(--ink);
+      letter-spacing: -0.02em; color: #111827;
       margin-top: 40px; margin-bottom: 14px;
       padding-top: 40px;
       border-top: 1px solid var(--rule);
@@ -143,28 +143,28 @@
     .prose h1 + h2 { margin-top: 32px; padding-top: 0; border-top: none; }
     .prose h3 {
       font-size: 16px; font-weight: 600;
-      color: var(--ink); margin-top: 28px; margin-bottom: 10px;
+      color: #111827; margin-top: 28px; margin-bottom: 10px;
     }
     .prose p {
-      font-size: 15px; color: var(--ink-2);
-      line-height: 1.8; font-weight: 400;
+      font-size: 15px; color: #374151;
+      line-height: 1.85; font-weight: 400;
       margin-bottom: 16px;
     }
     .prose p:last-child { margin-bottom: 0; }
     .prose a {
       color: var(--green); text-decoration: none;
-      border-bottom: 1px solid rgba(0,84,60,0.25);
+      border-bottom: 1px solid rgba(0,84,60,0.3);
       transition: border-color 0.14s;
     }
     .prose a:hover { border-color: var(--green); }
-    .prose strong { font-weight: 600; color: var(--ink); }
+    .prose strong { font-weight: 600; color: #111827; }
     .prose em { font-style: italic; }
     .prose ul, .prose ol {
       padding-left: 22px; margin-bottom: 16px;
     }
     .prose li {
-      font-size: 15px; color: var(--ink-2);
-      line-height: 1.75; margin-bottom: 6px;
+      font-size: 15px; color: #374151;
+      line-height: 1.8; margin-bottom: 6px;
     }
     .prose li:last-child { margin-bottom: 0; }
     .prose ul li { list-style-type: disc; }
@@ -172,14 +172,14 @@
     .prose code {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 13px; font-weight: 400;
-      background: var(--bg);
-      border: 1px solid var(--rule);
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
       border-radius: 3px;
       padding: 1px 6px;
-      color: var(--green);
+      color: #15803d;
     }
     .prose pre {
-      background: var(--code-bg);
+      background: #0f172a;
       border-radius: 6px;
       padding: 20px 22px;
       overflow-x: auto;
@@ -188,14 +188,13 @@
     .prose pre code {
       font-size: 13px; line-height: 1.7;
       background: none; border: none;
-      padding: 0; color: #a8c7b8;
+      padding: 0; color: #94a3b8;
     }
     .prose blockquote {
       border-left: 3px solid var(--green);
       padding-left: 18px; margin: 20px 0;
-      color: var(--ink-3);
     }
-    .prose blockquote p { color: var(--ink-3); }
+    .prose blockquote p { color: #6b7280; }
     .prose hr {
       border: none; border-top: 1px solid var(--rule);
       margin: 32px 0;
@@ -207,12 +206,12 @@
     .prose th {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 10px; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--ink-3);
+      text-transform: uppercase; color: #6b7280;
       text-align: left; padding: 10px 14px;
       border-bottom: 2px solid var(--rule);
     }
     .prose td {
-      padding: 10px 14px; color: var(--ink-2);
+      padding: 10px 14px; color: #374151;
       border-bottom: 1px solid var(--rule);
     }
     .prose tr:last-child td { border-bottom: none; }

@@ -47,22 +47,33 @@
     /* ─── TOPBAR ─── */
     .topbar {
       background: var(--green);
-      border-bottom: 3px solid var(--gold);
-      position: relative; z-index: 200;
+      border-bottom: 2px solid var(--gold);
+      position: sticky; top: 0; z-index: 200;
     }
     .topbar-inner {
-      max-width: 960px; margin: 0 auto; padding: 11px 32px;
-      display: grid; align-items: center;
-      grid-template-columns: 1fr 1fr;
+      max-width: 1040px; margin: 0 auto; padding: 0 32px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .topbar-left { display: flex; align-items: center; gap: 12px; }
-    .logos_divider {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px; color: white; flex-shrink: 0;
+    .topbar-brand {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
     }
-    .usf-shield-img { width: 48px; height: auto; }
-    .ripple-logo-wrap { width: 110px; }
-    .ripple-logo-wrap img { width: 100%; height: auto; }
+    .usf-shield-img { height: 32px; width: auto; }
+    .ripple-logo-img { height: 20px; width: auto; }
+    .topbar-sep { width: 1px; height: 20px; background: rgba(255,255,255,0.22); }
+    .topbar-nav { display: flex; align-items: center; gap: 4px; }
+    .topbar-nav a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; font-weight: 400;
+      color: rgba(255,255,255,0.68);
+      text-decoration: none;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 7px 12px; border-radius: 4px;
+      transition: color 0.14s, background 0.14s;
+    }
+    .topbar-nav a:hover { color: rgba(255,255,255,0.95); background: rgba(255,255,255,0.08); }
+    .topbar-nav a.active { color: var(--gold-lt); }
 
     /* ─── PAGE WRAPPER ─── */
     .page { position: relative; z-index: 1; display: none; }
@@ -388,28 +399,16 @@
 <!-- ═══════════════ TOPBAR ═══════════════ -->
 <div class="topbar">
   <div class="topbar-inner">
-    <div class="topbar-left logos">
-      <div class="usf-block" style="display:flex;align-items:center;">
-        <img class="usf-shield-img" src="university-of-san-francisco.jpg" alt="University of San Francisco" />
-      </div>
-      <span class="logos_divider">|</span>
-      <div class="ripple-logo-wrap">
-        <img src="full-ripple-logo.png" alt="Ripple" />
-      </div>
-    </div>
-    <div style="display:flex; align-items:center; gap:24px; justify-self:end;">
-      <a href="https://ripplexusf.github.io/" target="_self" rel="noopener noreferrer"
-         style="font-family:'IBM Plex Mono',monospace; font-size:16px;
-                color:rgba(255,255,255,0.9); letter-spacing:0.07em;
-                text-transform:uppercase; text-decoration:none; font-weight:600;">
-        Home
-      </a>
-      <a href="https://ripplexusf.github.io/links/" target="_self" rel="noopener noreferrer"
-         style="font-family:'IBM Plex Mono',monospace; font-size:16px;
-                color:rgba(255,255,255,0.9); letter-spacing:0.07em;
-                text-transform:uppercase; text-decoration:none; font-weight:600;">
-        Resources
-      </a>
+    <a href="/" class="topbar-brand">
+      <img class="usf-shield-img" src="university-of-san-francisco.jpg" alt="University of San Francisco" />
+      <span class="topbar-sep"></span>
+      <img class="ripple-logo-img" src="full-ripple-logo.png" alt="Ripple" />
+    </a>
+    <div class="topbar-nav">
+      <a href="/docs/">Docs</a>
+      <a href="/links/">Resources</a>
+      <a href="/sample_code/" class="active">Sample Code</a>
+      <a href="/projects/">Projects</a>
     </div>
   </div>
 </div>
