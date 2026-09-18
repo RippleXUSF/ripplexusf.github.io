@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Projects - USF x Ripple</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:    #00543c;
+      --green-dk: #003d2c;
+      --gold:     #c8922a;
+      --gold-lt:  #f5c84a;
+      --bg:       #f4f7f5;
+      --surface:  #ffffff;
+      --ink:      #0d1411;
+      --ink-2:    #3b4a44;
+      --ink-3:    #78908a;
+      --rule:     #d8e1dd;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+    }
+
+    nav {
+      background: var(--green);
+      border-bottom: 2px solid var(--gold);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1040px; margin: 0 auto;
+      padding: 0 32px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
+    }
+    .nav-brand img { height: 32px; width: auto; display: block; }
+    .nav-sep { width: 1px; height: 20px; background: rgba(255,255,255,0.22); }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; font-weight: 400;
+      color: rgba(255,255,255,0.68);
+      text-decoration: none;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 7px 12px; border-radius: 4px;
+      transition: color 0.14s, background 0.14s;
+    }
+    .nav-links a:hover { color: rgba(255,255,255,0.95); background: rgba(255,255,255,0.08); }
+    .nav-links a.active { color: var(--gold-lt); }
+
+    .page-header {
+      background: var(--green-dk);
+      padding: 56px 32px 64px;
+    }
+    .page-header-inner {
+      max-width: 1040px; margin: 0 auto;
+      animation: fade-up 0.5s ease both;
+    }
+    .page-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .page-header h1 {
+      font-size: clamp(30px, 4vw, 44px);
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: -0.03em; color: #fff;
+      margin-bottom: 12px;
+    }
+    .page-header p {
+      font-size: 15px; color: rgba(255,255,255,0.60);
+      max-width: 480px; line-height: 1.65;
+    }
+
+    .main {
+      max-width: 1040px; margin: 0 auto;
+      padding: 48px 32px 80px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .project-card {
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      background: var(--surface);
+      padding: 28px 24px 24px;
+      display: flex; flex-direction: column; gap: 10px;
+      transition: border-color 0.16s, transform 0.14s, box-shadow 0.16s;
+    }
+    .project-card:hover {
+      border-color: var(--green);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 18px rgba(0,84,60,0.08);
+    }
+    .project-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9.5px; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green);
+      background: rgba(0,84,60,0.07);
+      padding: 3px 8px; border-radius: 3px;
+      display: inline-block; width: fit-content;
+    }
+    .project-title {
+      font-size: 20px; font-weight: 700;
+      color: var(--ink); letter-spacing: -0.025em;
+    }
+    .project-desc {
+      font-size: 14px; color: var(--ink-2);
+      line-height: 1.7; flex: 1;
+    }
+    .project-links {
+      display: flex; gap: 10px;
+      flex-wrap: wrap; margin-top: 6px;
+    }
+    .project-link {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--green); text-decoration: none;
+      border: 1px solid rgba(0,84,60,0.2);
+      padding: 5px 10px; border-radius: 4px;
+      transition: background 0.14s, border-color 0.14s;
+    }
+    .project-link:hover {
+      background: rgba(0,84,60,0.06);
+      border-color: var(--green);
+    }
+
+    footer {
+      background: var(--green);
+      border-top: 2px solid var(--gold);
+    }
+    .footer-inner {
+      max-width: 1040px; margin: 0 auto;
+      padding: 26px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .footer-brand img { height: 38px; width: auto; }
+    .footer-copy {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: rgba(255,255,255,0.38);
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .projects-grid { grid-template-columns: 1fr 1fr; }
+      .page-header { padding: 44px 24px 52px; }
+      .main { padding: 40px 24px 64px; }
+    }
+    @media (max-width: 480px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .nav-links a.nav-hide { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <img src="/university-of-san-francisco.jpg" alt="USF" />
+        <div class="nav-sep"></div>
+        <img src="/full-ripple-logo.png" alt="Ripple" />
+      </a>
+      <div class="nav-links">
+        <a href="/docs/" class="nav-hide">Docs</a>
+        <a href="/links/" class="nav-hide">Resources</a>
+        <a href="/sample_code/">Sample Code</a>
+        <a href="/projects/" class="active">Projects</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="page-label">USF x Ripple Hackathon</div>
+      <h1>Student Projects</h1>
+      <p>Three projects built on the XRP Ledger during the hackathon, tackling real-world social good challenges.</p>
+    </div>
+  </div>
+
+  <main class="main">
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <span class="project-tag">Human Rights</span>
+        <span class="project-title">Shahid</span>
+        <p class="project-desc">
+          An evidence preservation platform for victims of political violence.
+          Submissions are manually reviewed and anchored on the XRP Ledger for
+          tamper-proof long-term storage.
+        </p>
+        <div class="project-links">
+          <a class="project-link" href="/projects/shahid/">View Project &#x2197;</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-tag">Environment</span>
+        <span class="project-title">EviAir</span>
+        <p class="project-desc">
+          An open citizen air quality reporting platform that anchors pollution
+          readings as tamper-evident evidence on the XRP Ledger, cross-validated
+          via consensus and queryable by transaction ID.
+        </p>
+        <div class="project-links">
+          <a class="project-link" href="/projects/eviair/">View Project &#x2197;</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-tag">Healthcare</span>
+        <span class="project-title">MedVerify</span>
+        <p class="project-desc">
+          A decentralized pharmaceutical supply chain tracker. Every custody
+          handoff from factory to dispensing counter is anchored on-chain.
+          Patients scan a QR code to see the full verified journey of their
+          medication.
+        </p>
+        <div class="project-links">
+          <a class="project-link" href="/projects/medverify/">View Project &#x2197;</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="/test2.png" alt="USF" />
+      </div>
+      <span class="footer-copy">University of San Francisco x Ripple</span>
+    </div>
+  </footer>
+
+</body>
+</html>

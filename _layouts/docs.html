@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page.title | default: site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:    #00543c;
+      --green-dk: #003d2c;
+      --gold:     #c8922a;
+      --gold-lt:  #f5c84a;
+      --bg:       #f4f7f5;
+      --surface:  #ffffff;
+      --ink:      #0d1411;
+      --ink-2:    #3b4a44;
+      --ink-3:    #78908a;
+      --rule:     #d8e1dd;
+      --code-bg:  #1a2820;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      background: var(--green);
+      border-bottom: 2px solid var(--gold);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1040px; margin: 0 auto;
+      padding: 0 32px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
+    }
+    .nav-brand img { height: 32px; width: auto; display: block; }
+    .nav-sep {
+      width: 1px; height: 20px;
+      background: rgba(255,255,255,0.22);
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 4px;
+    }
+    .nav-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; font-weight: 400;
+      color: rgba(255,255,255,0.68);
+      text-decoration: none;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 7px 12px; border-radius: 4px;
+      transition: color 0.14s, background 0.14s;
+    }
+    .nav-links a:hover {
+      color: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.08);
+    }
+    .nav-links a.active { color: var(--gold-lt); }
+
+    /* DOCS LAYOUT */
+    .docs-wrap {
+      max-width: 1040px; margin: 0 auto;
+      padding: 48px 32px 80px;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* SIDEBAR */
+    .docs-sidebar {
+      position: sticky; top: 88px;
+    }
+    .sidebar-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-3);
+      margin-bottom: 12px;
+    }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 2px; }
+    .sidebar-nav a {
+      font-size: 13px; font-weight: 400;
+      color: var(--ink-2); text-decoration: none;
+      padding: 6px 10px; border-radius: 4px;
+      transition: background 0.12s, color 0.12s;
+      line-height: 1.4;
+    }
+    .sidebar-nav a:hover {
+      background: var(--surface);
+      color: var(--green);
+    }
+    .sidebar-nav a.current {
+      background: var(--surface);
+      color: var(--green);
+      font-weight: 500;
+      border-left: 2px solid var(--green);
+      padding-left: 8px;
+    }
+    .sidebar-divider {
+      height: 1px; background: var(--rule);
+      margin: 10px 0;
+    }
+
+    /* PROSE CONTENT */
+    .prose {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 40px 48px;
+      min-width: 0;
+    }
+
+    .prose h1 {
+      font-size: clamp(26px, 3vw, 34px);
+      font-weight: 800; line-height: 1.1;
+      letter-spacing: -0.03em; color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .prose h2 {
+      font-size: 20px; font-weight: 700;
+      letter-spacing: -0.02em; color: var(--ink);
+      margin-top: 40px; margin-bottom: 14px;
+      padding-top: 40px;
+      border-top: 1px solid var(--rule);
+    }
+    .prose h1 + h2 { margin-top: 32px; padding-top: 0; border-top: none; }
+    .prose h3 {
+      font-size: 16px; font-weight: 600;
+      color: var(--ink); margin-top: 28px; margin-bottom: 10px;
+    }
+    .prose p {
+      font-size: 15px; color: var(--ink-2);
+      line-height: 1.8; font-weight: 400;
+      margin-bottom: 16px;
+    }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose a {
+      color: var(--green); text-decoration: none;
+      border-bottom: 1px solid rgba(0,84,60,0.25);
+      transition: border-color 0.14s;
+    }
+    .prose a:hover { border-color: var(--green); }
+    .prose strong { font-weight: 600; color: var(--ink); }
+    .prose em { font-style: italic; }
+    .prose ul, .prose ol {
+      padding-left: 22px; margin-bottom: 16px;
+    }
+    .prose li {
+      font-size: 15px; color: var(--ink-2);
+      line-height: 1.75; margin-bottom: 6px;
+    }
+    .prose li:last-child { margin-bottom: 0; }
+    .prose ul li { list-style-type: disc; }
+    .prose ol li { list-style-type: decimal; }
+    .prose code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px; font-weight: 400;
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      padding: 1px 6px;
+      color: var(--green);
+    }
+    .prose pre {
+      background: var(--code-bg);
+      border-radius: 6px;
+      padding: 20px 22px;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    .prose pre code {
+      font-size: 13px; line-height: 1.7;
+      background: none; border: none;
+      padding: 0; color: #a8c7b8;
+    }
+    .prose blockquote {
+      border-left: 3px solid var(--green);
+      padding-left: 18px; margin: 20px 0;
+      color: var(--ink-3);
+    }
+    .prose blockquote p { color: var(--ink-3); }
+    .prose hr {
+      border: none; border-top: 1px solid var(--rule);
+      margin: 32px 0;
+    }
+    .prose table {
+      width: 100%; border-collapse: collapse; margin: 20px 0;
+      font-size: 14px;
+    }
+    .prose th {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--ink-3);
+      text-align: left; padding: 10px 14px;
+      border-bottom: 2px solid var(--rule);
+    }
+    .prose td {
+      padding: 10px 14px; color: var(--ink-2);
+      border-bottom: 1px solid var(--rule);
+    }
+    .prose tr:last-child td { border-bottom: none; }
+
+    /* FOOTER */
+    footer {
+      background: var(--green);
+      border-top: 2px solid var(--gold);
+    }
+    .footer-inner {
+      max-width: 1040px; margin: 0 auto;
+      padding: 26px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 12px; }
+    .footer-brand img { height: 38px; width: auto; }
+    .footer-copy {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: rgba(255,255,255,0.38);
+    }
+
+    @media (max-width: 768px) {
+      .docs-wrap { grid-template-columns: 1fr; padding: 32px 24px 64px; }
+      .docs-sidebar { position: static; margin-bottom: 8px; }
+      .prose { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <img src="/university-of-san-francisco.jpg" alt="USF" />
+        <div class="nav-sep"></div>
+        <img src="/full-ripple-logo.png" alt="Ripple" />
+      </a>
+      <div class="nav-links">
+        <a href="/docs/" class="active">Docs</a>
+        <a href="/links/">Resources</a>
+        <a href="/sample_code/">Sample Code</a>
+        <a href="/projects/">Projects</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="docs-wrap">
+    <aside class="docs-sidebar">
+      <div class="sidebar-label">Documentation</div>
+      <nav class="sidebar-nav">
+        <a href="/docs/01-ripple-vs-xrpl">01 Ripple vs. XRPL</a>
+        <a href="/docs/02-accounts-and-reserves">02 Accounts and Reserves</a>
+        <a href="/docs/03-transactions">03 Transactions</a>
+        <a href="/docs/04-consensus">04 Consensus</a>
+        <a href="/docs/05-trust-lines">05 Trust Lines</a>
+        <a href="/docs/06-dex-and-amm">06 DEX and AMM</a>
+        <a href="/docs/07-escrow-channels-nfts">07 Escrow, Channels, NFTs</a>
+        <a href="/docs/08-first-transaction">08 First Transaction</a>
+        <div class="sidebar-divider"></div>
+        <a href="/docs/glossary">Glossary</a>
+        <a href="/docs/resources">Resources</a>
+        <a href="/docs/">Index</a>
+      </nav>
+    </aside>
+
+    <article class="prose">
+      {{ content }}
+    </article>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="/test2.png" alt="USF" />
+      </div>
+      <span class="footer-copy">University of San Francisco x Ripple</span>
+    </div>
+  </footer>
+
+</body>
+</html>
