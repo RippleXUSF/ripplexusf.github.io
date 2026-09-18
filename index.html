@@ -3,711 +3,599 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>USF × Ripple — XRPL Hackathon</title>
+  <title>USF x Ripple - XRPL Resources</title>
+  <meta name="description" content="Open documentation, code examples, and student projects for learning to build on the XRP Ledger. From USF and Ripple." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Sora:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --green:   #00543c;
-      --gold:    #c8922a;
-      --gold-lt: #f5c84a;
-      --cream:   #faf8f4;
-      --paper:   #f2ece0;
-      --ink:     #141210;
-      --ink-2:   #4a4540;
-      --ink-3:   #9a9288;
-      --rule:    #ddd5c5;
+      --green:    #00543c;
+      --green-dk: #003d2c;
+      --green-lt: #006b4d;
+      --gold:     #c8922a;
+      --gold-lt:  #f5c84a;
+      --bg:       #f4f7f5;
+      --surface:  #ffffff;
+      --ink:      #0d1411;
+      --ink-2:    #3b4a44;
+      --ink-3:    #78908a;
+      --rule:     #d8e1dd;
     }
 
     body {
-      background: var(--cream);
+      background: var(--bg);
       color: var(--ink);
-      font-family: 'Sora', sans-serif;
+      font-family: 'Outfit', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ── TOPBAR ── */
-    .topbar { 
-      background: var(--green); border-bottom: 3px solid var(--gold); 
-      position: relative; z-index: 100;
+    /* ── NAV ── */
+    nav {
+      background: var(--green);
+      border-bottom: 2px solid var(--gold);
+      position: sticky; top: 0; z-index: 100;
     }
-    .topbar-inner {
-      max-width: 960px; margin: 0 auto; padding: 11px 32px;
-      display: grid; align-items: center;
-      grid-template-columns: 1fr 1fr;
+    .nav-inner {
+      max-width: 1040px; margin: 0 auto;
+      padding: 0 32px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .topbar-left { display: flex; align-items: center; gap: 12px; }
-    .topbar-name {
-      font-size: 11px; font-weight: 500;
-      color: rgba(255,255,255,0.9);
-      letter-spacing: 0.07em; text-transform: uppercase; line-height: 1.5;
+    .nav-brand {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
     }
-    .topbar-name span {
-      display: block; font-weight: 300;
-      color: rgba(255,255,255,0.5); font-size: 10px;
+    .nav-brand img {
+      height: 32px; width: auto; display: block;
     }
-    .xrp-pill {
-      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+    .nav-sep {
+      width: 1px; height: 20px;
+      background: rgba(255,255,255,0.22);
+      flex-shrink: 0;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 4px;
+    }
+    .nav-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; font-weight: 400;
+      color: rgba(255,255,255,0.68);
+      text-decoration: none;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 7px 12px;
+      border-radius: 4px;
+      transition: color 0.14s, background 0.14s;
+    }
+    .nav-links a:hover {
+      color: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.08);
+    }
+    .nav-links a.active {
       color: var(--gold-lt);
-      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 100px; padding: 3px 11px; letter-spacing: 0.05em;
     }
-
-    .dropdown{
-      position: relative;
-    }
-    .dropdown-trigger{
-      font-family: 'IBM Plex Mono', monospace; font-size: 16px;
-      color: rgba(255,255,255,0.9); letter-spacing: 0.07em;
-      text-transform: uppercase; text-decoration: none;
-      font-weight: 600; cursor: pointer;
-    }
-    .dropdown-menu {
-      display: none;
-      position: absolute; top: 100%; right: 0;
-      background: var(--paper); border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 4px; padding: 8px 0; min-width: max-content;
-    }
-    .dropdown-menu a {
-      display: block;
-      font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-      color: var(--ink-2); letter-spacing: 0.07em;
-      text-transform: uppercase; text-decoration: none;
-      padding: 10px 16px;
-      border-bottom: 1px solid var(--ink-3);
-
-    }
-    .dropdown-menu a:last-child {
-      border-bottom: none;
-    }
-    .dropdown-menu a:hover { background: rgba(255,255,255,0.08); }
-    .dropdown:hover .dropdown-menu { display: block; }
 
     /* ── HERO ── */
     .hero {
-      max-width: 960px; margin: 0 auto; padding: 72px 32px 0;
-      display: flex; flex-direction: column;
-      gap: 40px; align-items: stretch; text-align: center;
-      background: url('hero-background.png') center top/100% no-repeat;
+      background: var(--green-dk);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-
-    .eyebrow {
-      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 20px;
-      display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+    .hero-inner {
+      max-width: 1040px; margin: 0 auto;
+      padding: 72px 32px 80px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 64px;
+      align-items: center;
+      animation: fade-up 0.55s 0.05s ease both;
     }
-    .eyebrow::after {
-      content: none; height: 1px; width: 40px;
-      background: var(--gold); opacity: 0.45; display: block;
+    .hero-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
     }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(40px, 5.2vw, 62px);
-      font-weight: 900; line-height: 1.04;
-      letter-spacing: -0.02em; color: white; margin-bottom: 20px;
+    .hero-label::after {
+      content: '';
+      flex: 1; max-width: 40px;
+      height: 1px; background: var(--gold); opacity: 0.4;
     }
-    h1 .green-line {
-      display: block; font-style: italic;
-      font-weight: 700; color: white;
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: -0.03em; color: #fff;
+      margin-bottom: 18px;
     }
-
     .hero-sub {
-      font-size: 22px; color: white;
-      line-height: 1.7; font-weight: 400;
+      font-size: 16px; font-weight: 400;
+      color: rgba(255,255,255,0.62);
+      line-height: 1.7; max-width: 440px;
+      margin-bottom: 36px;
+    }
+    .hero-actions {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      padding: 11px 20px; border-radius: 4px;
+      transition: background 0.16s, transform 0.13s, color 0.16s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-gold { background: var(--gold); color: var(--green-dk); }
+    .btn-gold:hover { background: var(--gold-lt); }
+    .btn-ghost {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      color: rgba(255,255,255,0.8);
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+    }
+    .hero-aside {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 8px;
+      padding: 24px;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .hero-aside-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      gap: 12px;
+    }
+    .hero-aside-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .hero-aside-row:first-child { padding-top: 0; }
+    .aside-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.38);
+    }
+    .aside-value {
+      font-size: 13px; font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      text-align: right;
+    }
+
+    /* ── SECTION SHELL ── */
+    .section {
+      max-width: 1040px; margin: 0 auto;
+      padding: 64px 32px 0;
+    }
+    .section-header {
       margin-bottom: 32px;
     }
-
-    /* ── CTA BUTTON ── */
-    .cta-btn {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: var(--green); color: #fff;
-      font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600;
-      letter-spacing: 0.03em;
-      text-decoration: none;
-      padding: 14px 28px; border-radius: 4px;
-      border: 2px solid var(--green);
-      transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
-      align-self: center
+    .section-header h2 {
+      font-size: clamp(22px, 2.6vw, 30px);
+      font-weight: 700; line-height: 1.12;
+      letter-spacing: -0.025em; color: var(--ink);
     }
-    .cta-btn:hover {
-      background: transparent; color: var(--green);
-      transform: translateY(-1px);
+    .section-header p {
+      margin-top: 8px;
+      font-size: 14px; color: var(--ink-3);
+      line-height: 1.7; max-width: 520px;
     }
-    .cta-btn .arrow { font-size: 16px; transition: transform 0.2s; }
-    .cta-btn:hover .arrow { transform: translate(2px, -2px); }
 
-    /* ── PARTNER BOX ── */
-    .partner-box {
-      border: 1.5px solid var(--rule);
+    /* ── RESOURCE TILES ── */
+    .tiles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .tile {
+      border: 1px solid var(--rule);
       border-radius: 6px;
-      padding: 32px 40px;
-      background: var(--paper);
-      position: relative;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 40px;
-    }
-
-    .logos {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-      flex-shrink: 0;
-      justify-self: start;
-    }
-
-    .usf-block {
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
-    }
-    .usf-shield-img {
-      width: 72px; height: auto;
-    }
-
-    .logos_divider {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px; color: white; flex-shrink: 0;
-    }
-
-    .ripple-block {
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
-    }
-    .ripple-logo-wrap { width: 130px; }
-    .ripple-logo-wrap img { width: 100%; height: auto; }
-
-    /* event meta inside partner box */
-    .box-meta {
-      flex: 1;
-      border-left: 1px solid var(--rule);
-      padding-left: 32px;
+      background: var(--surface);
+      padding: 26px 24px 22px;
+      text-decoration: none; color: inherit;
       display: flex; flex-direction: column; gap: 10px;
-    }
-    .meta-row {
-      display: flex; justify-content: space-between; align-items: baseline;
-    }
-    .meta-label {
-      font-family: 'IBM Plex Mono', monospace; font-size: 9px;
-      letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3);
-    }
-    .meta-value {
-      font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-      font-weight: 500; color: var(--ink-2); text-align: right;
-    }
-
-    /* ── DIVIDER ── */
-    .divider {
-      max-width: 960px; margin: 60px auto 0; padding: 0 32px;
-      display: flex; align-items: center; gap: 14px;
-    }
-    .divider hr { flex: 1; border: none; border-top: 1px solid var(--rule); }
-    .divider-label {
-      font-family: 'IBM Plex Mono', monospace; font-size: 9.5px;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--ink-3); white-space: nowrap;
-    }
-
-    /* ── CARDS GRID ── */
-    .cards {
-      max-width: 960px; margin: 0 auto; padding: 40px 32px 0;
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .card {
-      border: 1.5px solid var(--rule);
-      border-radius: 6px;
-      padding: 28px 24px;
-      background: var(--paper);
-      text-decoration: none;
-      color: inherit;
-      display: flex; flex-direction: column; gap: 12px;
+      transition: border-color 0.16s, transform 0.14s, box-shadow 0.16s;
       position: relative; overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
     }
-    .card:hover {
+    .tile:hover {
       border-color: var(--green);
       transform: translateY(-2px);
+      box-shadow: 0 4px 18px rgba(0,84,60,0.08);
     }
-    .card::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0; right: 0;
-      height: 3px; background: var(--green);
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.25s ease;
+    .tile-icon {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; font-weight: 500;
+      color: var(--green);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
-    .card:hover::after { transform: scaleX(1); }
-
-    .card-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px; font-weight: 700; font-style: italic;
-      color: var(--rule); line-height: 1;
-      transition: color 0.2s;
+    .tile-title {
+      font-size: 17px; font-weight: 700;
+      color: var(--ink); line-height: 1.2;
+      letter-spacing: -0.02em;
     }
-    .card:hover .card-num { color: var(--gold); }
-
-    .card-title {
-      font-family: 'Sora', sans-serif;
-      font-size: 17px; font-weight: 600;
-      letter-spacing: -0.02em; color: var(--ink);
-      transition: color 0.2s;
+    .tile-desc {
+      font-size: 13px; color: var(--ink-3);
+      line-height: 1.65; flex: 1;
     }
-    .card:hover .card-title { color: var(--green); }
-
-    .card-desc {
-      font-size: 13px; color: var(--ink-2);
-      font-weight: 300; line-height: 1.6; flex: 1;
-    }
-
-    .card-arrow {
+    .tile-arrow {
       align-self: flex-end;
-      font-size: 16px; color: var(--rule);
-      transition: color 0.2s, transform 0.2s;
+      font-size: 15px; color: var(--rule);
+      transition: color 0.16s, transform 0.14s;
+      margin-top: 4px;
     }
-    .card:hover .card-arrow { color: var(--green); transform: translate(2px, -2px); }
-
-    /* special styling for the register card */
-    .card-register {
+    .tile:hover .tile-arrow {
+      color: var(--green);
+      transform: translate(2px, -2px);
+    }
+    .tile-featured {
       background: var(--green);
       border-color: var(--green);
     }
-    .card-register .card-num { color: rgba(255,255,255,0.2); }
-    .card-register:hover .card-num { color: rgba(255,255,255,0.4); }
-    .card-register .card-tag { color: rgba(255,255,255,0.45); }
-    .card-register .card-title { color: #fff; }
-    .card-register:hover .card-title { color: var(--gold-lt); }
-    .card-register .card-desc { color: rgba(255,255,255,0.6); }
-    .card-register .card-arrow { color: rgba(255,255,255,0.3); }
-    .card-register:hover .card-arrow { color: var(--gold-lt); }
-    .card-register::after { background: var(--gold); }
-    .card-register:hover { border-color: var(--gold); }
+    .tile-featured .tile-icon { color: rgba(255,255,255,0.5); }
+    .tile-featured .tile-title { color: #fff; }
+    .tile-featured .tile-desc { color: rgba(255,255,255,0.62); }
+    .tile-featured .tile-arrow { color: rgba(255,255,255,0.25); }
+    .tile-featured:hover .tile-arrow { color: var(--gold-lt); }
+    .tile-featured:hover { border-color: var(--gold); }
 
-    /* ── CONTACT STRIP ── */
-    .contact-strip {
-      max-width: 960px; margin: 40px auto 0; padding: 0 32px;
-    }
-
-    .contact-box {
-      border: 1.5px solid var(--rule);
+    /* ── DOCS PREVIEW ── */
+    .docs-list {
+      border: 1px solid var(--rule);
       border-radius: 6px;
-      padding: 26px 32px;
-      background: var(--paper);
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 20px; flex-wrap: wrap;
+      background: var(--surface);
+      overflow: hidden;
     }
+    .docs-item {
+      display: flex; align-items: center;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none; color: inherit;
+      gap: 16px;
+      transition: background 0.14s;
+    }
+    .docs-item:last-child { border-bottom: none; }
+    .docs-item:hover { background: var(--bg); }
+    .docs-item-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: var(--ink-3);
+      letter-spacing: 0.06em;
+      flex-shrink: 0; width: 24px;
+    }
+    .docs-item-title {
+      font-size: 14px; font-weight: 500; color: var(--ink);
+      flex: 1;
+    }
+    .docs-item-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9.5px; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      padding: 3px 8px; border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .docs-item-arrow {
+      font-size: 13px; color: var(--rule);
+      flex-shrink: 0;
+      transition: color 0.14s;
+    }
+    .docs-item:hover .docs-item-arrow { color: var(--green); }
+    .docs-footer {
+      padding: 14px 22px;
+      border-top: 1px solid var(--rule);
+      background: var(--bg);
+    }
+    .docs-footer a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--green); text-decoration: none;
+    }
+    .docs-footer a:hover { text-decoration: underline; }
 
-    .contact-left { display: flex; flex-direction: column; gap: 4px; }
-    .contact-label {
-      font-family: 'IBM Plex Mono', monospace; font-size: 9px;
-      letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3);
-    }
-    .contact-name {
-      font-family: 'Sora', sans-serif; font-size: 15px;
-      font-weight: 600; color: var(--ink);
-    }
-    .contact-role {
-      font-size: 12px; color: var(--ink-3); font-weight: 300;
-    }
-
-    .contact-email {
-      font-family: 'IBM Plex Mono', monospace; font-size: 13px;
-      font-weight: 500; color: var(--green);
-      text-decoration: none; letter-spacing: 0.01em;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.2s;
-      padding-bottom: 1px;
-    }
-    .contact-email:hover { border-color: var(--green); }
-
-    /* ── FOOTER ── */
-    footer { background: var(--green); border-top: 3px solid var(--gold); margin-top: 60px; }
-    .footer-inner {
-      max-width: 960px; margin: 0 auto; padding: 26px 32px;
-      display: flex; align-items: center; justify-content: center;
-      flex-wrap: wrap; gap: 10px;
-    }
-    .footer-l {
-      font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-      color: rgba(255,255,255,0.5);
-    }
-    .footer-l strong { color: rgba(255,255,255,0.85); font-weight: 500; }
-    .footer-r {
-      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
-      color: rgba(255,255,255,0.3);
-    }
-
-    /* ── ANIMATIONS ── */
-    @keyframes up {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .topbar       { animation: up 0.4s 0.05s ease both; }
-    .hero-left    { animation: up 0.6s 0.15s ease both; }
-    .partner-box  { animation: up 0.6s 0.28s ease both; }
-    .divider      { animation: up 0.4s 0.40s ease both; }
-    .card:nth-child(1) { animation: up 0.4s 0.46s ease both; }
-    .card:nth-child(2) { animation: up 0.4s 0.54s ease both; }
-    .card:nth-child(3) { animation: up 0.4s 0.62s ease both; }
-    .contact-strip { animation: up 0.4s 0.70s ease both; }
-
-
-
-
-
-    /* ── SOCIAL GOOD ── */
-    .social-good-section {
-      max-width: 960px; margin: 48px auto 0; padding: 0 32px;
-    }
-    .social-good-wrap {
-      border: 1.5px solid var(--rule);
-      border-radius: 6px;
-      background: var(--paper);
-      padding: 30px 32px 32px;
-    }
-    .social-good-kicker {
-      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
-      letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold);
-      margin-bottom: 10px;
-    }
-    .social-good-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(28px, 3.2vw, 38px);
-      line-height: 1.08; letter-spacing: -0.02em; color: var(--ink);
-      margin-bottom: 14px;
-    }
-    .social-good-intro {
-      max-width: 760px;
-      font-size: 14px; line-height: 1.8; color: var(--ink-2); font-weight: 300;
-    }
-    .social-good-grid {
-      margin-top: 26px;
+    /* ── PROJECTS ── */
+    .projects-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
     }
-    .social-good-card {
-      display: block;
-      text-decoration: none;
-      color: inherit;
-      border: 1.5px solid var(--rule);
+    .project-card {
+      border: 1px solid var(--rule);
       border-radius: 6px;
-      background: rgba(255,255,255,0.35);
-      padding: 20px 20px 18px;
-      transition: border-color 0.2s, transform 0.2s, background 0.2s;
+      background: var(--surface);
+      padding: 24px 22px 20px;
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; gap: 8px;
+      transition: border-color 0.16s, transform 0.14s;
     }
-    .social-good-card:hover {
+    .project-card:hover {
       border-color: var(--green);
       transform: translateY(-2px);
-      background: rgba(255,255,255,0.6);
     }
-    .social-good-card-title {
-      font-family: 'Sora', sans-serif;
-      font-size: 16px; font-weight: 600; color: var(--ink);
-      margin-bottom: 8px;
-    }
-    .social-good-card-desc {
-      font-size: 13px; line-height: 1.7; color: var(--ink-2); font-weight: 300;
-    }
-    .social-good-link {
-      margin-top: 12px;
-      font-family: 'IBM Plex Mono', monospace; font-size: 11px;
-      letter-spacing: 0.06em; text-transform: uppercase; color: var(--green);
-      display: inline-block;
-    }
-
-    /* ── FAQ ── */
-    .faq-section {
-      max-width: 960px; margin: 44px auto 0; padding: 0 32px;
-    }
-    .faq-wrap {
-      background: transparent;
-      overflow: visible;
-    }
-    .faq-header {
-      padding: 0 0 24px;
-      border-bottom: 1px solid var(--rule);
-      background: transparent;
-    }
-    .faq-kicker {
-      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
-      letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold);
-      margin-bottom: 8px;
-    }
-    .faq-header h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(28px, 3.2vw, 38px);
-      line-height: 1.08; letter-spacing: -0.02em; color: var(--ink);
-      text-align: center;
-    }
-    .faq-header p {
-      margin-top: 10px; max-width: 720px;
-      font-size: 13px; line-height: 1.7; color: var(--ink-2); font-weight: 300;
-    }
-    .faq-list {
-      display: grid;
-      grid-template-columns: 1fr;
-    }
-    .faq-item {
-      padding: 24px 0;
-      border-top: 1px solid var(--rule);
-    }
-    .faq-item:first-child { border-top: none; }
-    .faq-row {
-      display: grid;
-      grid-template-columns: 72px 1fr;
-      gap: 16px;
-      align-items: start;
-    }
-    .faq-row + .faq-row {
-      margin-top: 12px;
-    }
-    .faq-label {
-      font-family: 'Playfair Display', serif;
-      font-size: 26px;
-      font-weight: 700;
+    .project-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9.5px; letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: var(--green);
-      line-height: 1;
-      letter-spacing: 0.01em;
+      background: rgba(0,84,60,0.07);
+      padding: 3px 8px; border-radius: 3px;
+      display: inline-block; width: fit-content;
     }
-    .faq-question {
-      font-family: 'Sora', sans-serif;
-      font-size: 17px; font-weight: 600; letter-spacing: -0.02em;
-      color: var(--ink); line-height: 1.45;
+    .project-title {
+      font-size: 16px; font-weight: 700;
+      color: var(--ink); letter-spacing: -0.02em;
     }
-    .faq-answer {
-      font-size: 13px; color: var(--ink-2); font-weight: 300; line-height: 1.75;
+    .project-desc {
+      font-size: 13px; color: var(--ink-3);
+      line-height: 1.65; flex: 1;
+    }
+    .project-link {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--green); margin-top: 4px;
     }
 
-    @media (max-width: 700px) {
-      .hero { padding-top: 48px; }
-      .cards { grid-template-columns: 1fr; }
-      .topbar .xrp-pill { display: none; }
-      .contact-box { flex-direction: column; align-items: flex-start; }
-      .partner-box { flex-direction: column; align-items: center; }
-      .box-meta { border-left: none; border-top: 1px solid var(--rule); padding-left: 0; padding-top: 20px; width: 100%; }
-      .faq-item { grid-template-columns: 1fr; gap: 8px; }
-      .faq-label { padding-top: 0; }
-      .social-good-grid { grid-template-columns: 1fr; }
+    /* ── DIVIDER ── */
+    .hr {
+      max-width: 1040px; margin: 64px auto 0;
+      padding: 0 32px; border-top: 1px solid var(--rule);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green);
+      border-top: 2px solid var(--gold);
+      margin-top: 72px;
+    }
+    .footer-inner {
+      max-width: 1040px; margin: 0 auto;
+      padding: 26px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .footer-brand {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .footer-brand img { height: 38px; width: auto; }
+    .footer-copy {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; color: rgba(255,255,255,0.38);
+    }
+    .footer-links {
+      display: flex; gap: 20px;
+    }
+    .footer-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5); text-decoration: none;
+      transition: color 0.14s;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.9); }
+
+    /* ── ANIMATION ── */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 800px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-aside { display: none; }
+      .tiles { grid-template-columns: 1fr 1fr; }
+      .projects-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .hero-inner { padding: 52px 24px 60px; }
+      .tiles { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .section { padding: 48px 24px 0; }
+      .hr { padding: 0 24px; }
+      .nav-links a.nav-hide { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- TOPBAR -->
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="logos">
-        <div class = "usf-block">
-          <img class="usf-shield-img" src="university-of-san-francisco.jpg" alt="University of San Francisco" />
-        </div>
-        <div class="logos_divider">|</div>
-         <div class="ripple-block">
-          <div class="ripple-logo-wrap">
-            <img src="full-ripple-logo.png" alt="Ripple" />
-          </div>
-         </div>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <img src="university-of-san-francisco.jpg" alt="University of San Francisco" />
+        <div class="nav-sep"></div>
+        <img src="full-ripple-logo.png" alt="Ripple" />
+      </a>
+      <div class="nav-links">
+        <a href="/docs/" class="nav-hide">Docs</a>
+        <a href="/links/" class="nav-hide">Resources</a>
+        <a href="/sample_code/">Sample Code</a>
+        <a href="/projects/README">Projects</a>
       </div>
-    <div style = "display: flex; align-items: center; gap: 24px; justify-self: end;">
-      <a href="https://ripplexusf.github.io/schedule/"
-        target = "_self" rel="noopener noreferrer"
-         style="font-family: 'IBM Plex Mono', monospace; font-size: 16px;
-                color: rgba(255,255,255,0.9); letter-spacing: 0.07em;
-                text-transform: uppercase; text-decoration: none;
-                font-weight:600">
-      Schedule
-      </a>
-      <a href="https://ripplexusf.github.io/links/"
-        target = "_self" rel="noopener noreferrer"
-         style="font-family: 'IBM Plex Mono', monospace; font-size: 16px;
-                color: rgba(255,255,255,0.9); letter-spacing: 0.07em;
-                text-transform: uppercase; text-decoration: none;
-                font-weight:600">
-      Resources
-      </a>
-
     </div>
-   </div>
-  </div>
+  </nav>
 
   <!-- HERO -->
-  <div class="hero" style="position: relative; padding: 0;">
-    <img src="Hero_Wholesale.png" style="width: 100%; display: block; height: 400px; object-fit: cover; object-position: center center;" />
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-label">USF x Ripple</div>
+        <h1>Build on the XRP Ledger</h1>
+        <p class="hero-sub">
+          Open documentation, code examples, and student projects for
+          learning XRPL development. Maintained by students and supported by Ripple.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href="/docs/">Explore Docs</a>
+          <a class="btn btn-ghost" href="/sample_code/">Sample Code</a>
+        </div>
+      </div>
+      <div class="hero-aside">
+        <div class="hero-aside-row">
+          <span class="aside-label">Language</span>
+          <span class="aside-value">xrpl.js / xrpl-py</span>
+        </div>
+        <div class="hero-aside-row">
+          <span class="aside-label">Network</span>
+          <span class="aside-value">Testnet + Mainnet</span>
+        </div>
+        <div class="hero-aside-row">
+          <span class="aside-label">Prerequisite</span>
+          <span class="aside-value">None</span>
+        </div>
+        <div class="hero-aside-row">
+          <span class="aside-label">Institution</span>
+          <span class="aside-value">University of San Francisco</span>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div style="display: flex; justify-content: center; gap: 48px; padding: 20px 32px 0; font-size: 18px;">
-    <span>📅 Mar. 27 – 28</span>
-    <span>📍 <a href="https://www.usfca.edu/campus-map?mapLocation=John%20Lo%20Schiavo%2C%20S.J.%20Center%20for%20Science%20and%20Innovation" target="_blank" rel="noopener noreferrer" style="color: inherit;">LS 307, USF</a></span>
-  </div>
+  <!-- QUICK LINKS -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Start here</h2>
+      <p>Pick the resource that fits where you are.</p>
+    </div>
+    <div class="tiles">
+      <a class="tile tile-featured" href="/docs/">
+        <span class="tile-icon">Docs</span>
+        <span class="tile-title">Learning Guide</span>
+        <span class="tile-desc">Eight chapters covering XRPL fundamentals, wallets, transactions, tokens, and DeFi. Written for beginners.</span>
+        <span class="tile-arrow">&#x2197;</span>
+      </a>
+      <a class="tile" href="/sample_code/">
+        <span class="tile-icon">Code</span>
+        <span class="tile-title">Sample Code</span>
+        <span class="tile-desc">Hands-on examples across payments, tokens, NFTs, and the DEX. Clone and run locally.</span>
+        <span class="tile-arrow">&#x2197;</span>
+      </a>
+      <a class="tile" href="/links/">
+        <span class="tile-icon">Links</span>
+        <span class="tile-title">Resources</span>
+        <span class="tile-desc">Curated links to official XRPL docs, dev tools, community, and reference material.</span>
+        <span class="tile-arrow">&#x2197;</span>
+      </a>
+    </div>
+  </section>
 
-  <!-- INTRO-->
+  <div class="hr"></div>
 
-  <div style="max-width: 960px; margin: 40px auto 0; padding: 0 32px; text-align: center;">
-    <h2 style="text-align: center; font-family: 'Playfair Display', serif; font-size: clamp(28px, 3.2vw, 38px); line-height: 1.08; letter-spacing: -0.02em;">
-      About the Hackathon
-    </h2>
-    <p style="font-family: 'Sora', sans-serif; font-size: 14px; color: var(--ink-2); line-height: 1.7; font-weight: 300; text-align: center; max-width: 660px; margin: 0 auto;">
-      <br>
-      Blockchain for Social Good is your chance to tackle real-world challenges using
-      decentralized technology — no prior blockchain experience needed. Build on the XRP
-      Ledger with guidance from Ripple engineers, connect with industry professionals, and
-      compete for a prize pool of up to $2,000 in gift cards.
-    </p>
-
-  </div>
-
-
-
-
-    <div style="text-align: center; margin-top: 40px;">
-    <a class="cta-btn" href="https://docs.google.com/forms/d/1RQtfi35Cp8zJoLTgAKtTvwExNnpoVLFev6a7JWRGeck/viewform?ts=69b1d0c8&edit_requested=true" target="_blank" rel="noopener noreferrer">
-      Register Now <span class="arrow">↗</span>
-    </a>
-  </div>
-
-
-
-  <!-- BLOCKCHAIN FOR SOCIAL GOOD -->
-  <section class="social-good-section">
-    <div class="social-good-wrap">
-      <div class="social-good-kicker">Inspiration</div>
-      <h2 class="social-good-title">What counts for Social Good?</h2>
-      <p class="social-good-intro">
-Blockchain for social good can take many forms. To help spark ideas, we have prepared a few real-world examples below for your reference.
-      </p>
-      <div class="social-good-grid">
-        <a class="social-good-card" href="https://innovation.wfp.org/project/building-blocks" target="_blank" rel="noopener noreferrer">
-          <div class="social-good-card-title">Aid Distribution</div>
-          <div class="social-good-card-desc">Uses blockchain to coordinate humanitarian aid distribution and protect beneficiary data.</div>
-          <span class="social-good-link">View ↗</span>
-        </a>
-        <a class="social-good-card" href="https://www.provenance.org/news-insights/blockchain-the-solution-for-transparency-in-product-supply-chains" target="_blank" rel="noopener noreferrer">
-          <div class="social-good-card-title">Supply Chain Transparency</div>
-          <div class="social-good-card-desc">Uses blockchain to verify product sourcing, authenticity, and sustainability across supply chains.</div>
-          <span class="social-good-link">View ↗</span>
-        </a>
-        <a class="social-good-card" href="https://legacy.provenance.org/tracking-tuna-on-the-blockchain" target="_blank" rel="noopener noreferrer">
-          <div class="social-good-card-title">Sustainable Fishing</div>
-          <div class="social-good-card-desc">Traces tuna from catch to consumer to support sustainable fishing and supply chain visibility.</div>
-          <span class="social-good-link">View ↗</span>
-        </a>
-        <a class="social-good-card" href="https://reachalliance.org/reports/blockchain-for-social-impact-empowering-vulnerable-communities-against-climate-shocks-in-nepal/" target="_blank" rel="noopener noreferrer">
-          <div class="social-good-card-title">Climate Resilience</div>
-          <div class="social-good-card-desc">Delivers early flood warnings and anticipatory cash assistance to vulnerable communities before climate shocks hit.</div>
-          <span class="social-good-link">View ↗</span>
-        </a>
+  <!-- DOCS PREVIEW -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Documentation</h2>
+      <p>A structured path from zero to building your first transaction.</p>
+    </div>
+    <div class="docs-list">
+      <a class="docs-item" href="/docs/01-ripple-vs-xrpl">
+        <span class="docs-item-num">01</span>
+        <span class="docs-item-title">Ripple vs. XRPL - Two Different Things</span>
+        <span class="docs-item-tag">Fundamentals</span>
+        <span class="docs-item-arrow">&#x2192;</span>
+      </a>
+      <a class="docs-item" href="/docs/02-how-xrpl-works">
+        <span class="docs-item-num">02</span>
+        <span class="docs-item-title">How the XRP Ledger Works</span>
+        <span class="docs-item-tag">Fundamentals</span>
+        <span class="docs-item-arrow">&#x2192;</span>
+      </a>
+      <a class="docs-item" href="/docs/03-accounts-and-reserves">
+        <span class="docs-item-num">03</span>
+        <span class="docs-item-title">Accounts and Reserves</span>
+        <span class="docs-item-tag">Accounts</span>
+        <span class="docs-item-arrow">&#x2192;</span>
+      </a>
+      <a class="docs-item" href="/docs/04-tokens-and-trust-lines">
+        <span class="docs-item-num">04</span>
+        <span class="docs-item-title">Tokens and Trust Lines</span>
+        <span class="docs-item-tag">Tokens</span>
+        <span class="docs-item-arrow">&#x2192;</span>
+      </a>
+      <a class="docs-item" href="/docs/05-defi-on-xrpl">
+        <span class="docs-item-num">05</span>
+        <span class="docs-item-title">DeFi on XRPL - DEX and AMM</span>
+        <span class="docs-item-tag">DeFi</span>
+        <span class="docs-item-arrow">&#x2192;</span>
+      </a>
+      <a class="docs-item" href="/docs/06-nfts">
+        <span class="docs-item-num">06</span>
+        <span class="docs-item-title">NFTs on XRPL</span>
+        <span class="docs-item-tag">NFTs</span>
+        <span class="docs-item-arrow">&#x2192;</span>
+      </a>
+      <a class="docs-item" href="/docs/07-xrpl-py">
+        <span class="docs-item-num">07</span>
+        <span class="docs-item-title">Using xrpl-py</span>
+        <span class="docs-item-tag">Python</span>
+        <span class="docs-item-arrow">&#x2192;</span>
+      </a>
+      <a class="docs-item" href="/docs/08-first-transaction">
+        <span class="docs-item-num">08</span>
+        <span class="docs-item-title">Your First Transaction</span>
+        <span class="docs-item-tag">Hands-on</span>
+        <span class="docs-item-arrow">&#x2192;</span>
+      </a>
+      <div class="docs-footer">
+        <a href="/docs/">View all docs, glossary, and resources &#x2192;</a>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section class="faq-section">
-    <div class="faq-wrap">
-      <div class="faq-header">
-        <h2>Hackathon Q&amp;A</h2>
-      </div>
+  <div class="hr"></div>
 
-      <div class="faq-list">
-        <div class="faq-item">
-          <div class="faq-row">
-            <div class="faq-label">Q:</div>
-            <div class="faq-question">Do I need to build a complete, fully functional product by the end of the hackathon?</div>
-          </div>
-          <div class="faq-row">
-            <div class="faq-label">A:</div>
-            <div class="faq-answer-block">
-              <p class="faq-answer">Given the time constraints of the hackathon, we do not expect participants to produce a fully coded and functional product by the end of the event. 
-                                    Having a strong idea and putting together a solid prototype or project skeleton is already enough.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-row">
-            <div class="faq-label">Q:</div>
-            <div class="faq-question">Would I mainly be expected to identify legal use cases or fintech applications for Ripple?</div>
-          </div>
-          <div class="faq-row">
-            <div class="faq-label">A:</div>
-            <div class="faq-answer-block">
-              <p class="faq-answer">Not necessarily. As long as it relates to social good in a broad sense, it would be within scope. The specific direction is largely up to your team and the kind of issue you want to address.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-row">
-            <div class="faq-label">Q:</div>
-            <div class="faq-question">What if I have limited experience in coding?</div>
-          </div>
-          <div class="faq-row">
-            <div class="faq-label">A:</div>
-            <div class="faq-answer-block">
-              <p class="faq-answer">
-                This event brings together students from both the School of Law and the Computer Science, teams will have representatives from both schools. 
-                The interdisciplinary nature of the event is specifically meant to allow people with different strengths to support one another, regardless of coding background.
-                <p class="faq-answer">Participants are also welcome to use Claude in ways that are permitted under the rules of the School of Law.</p>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-row">
-            <div class="faq-label">Q:</div>
-            <div class="faq-question">Will there be technical support during the event?</div>
-          </div>
-          <div class="faq-row">
-            <div class="faq-label">A:</div>
-            <div class="faq-answer-block">
-              <p class="faq-answer">Yes. Ripple engineers and CS professors will be there to help.</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
+  <!-- STUDENT PROJECTS -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Student Projects</h2>
+      <p>Projects built during the USF x Ripple hackathon on the XRP Ledger.</p>
+    </div>
+    <div class="projects-grid">
+      <a class="project-card" href="/projects/shahid/">
+        <span class="project-tag">Healthcare</span>
+        <span class="project-title">Shahid</span>
+        <span class="project-desc">A patient health records system using XRPL for decentralized, consent-based data sharing between providers.</span>
+        <span class="project-link">View project &#x2197;</span>
+      </a>
+      <a class="project-card" href="/projects/eviair/">
+        <span class="project-tag">Environment</span>
+        <span class="project-title">EviAir</span>
+        <span class="project-desc">Tracks air quality data on-chain, enabling transparent environmental reporting and community accountability.</span>
+        <span class="project-link">View project &#x2197;</span>
+      </a>
+      <a class="project-card" href="/projects/medverify/">
+        <span class="project-tag">Verification</span>
+        <span class="project-title">MedVerify</span>
+        <span class="project-desc">Verifies medical credentials on the XRP Ledger to reduce fraud and speed up licensing across institutions.</span>
+        <span class="project-link">View project &#x2197;</span>
+      </a>
     </div>
   </section>
-
-  <!-- MORE -->
-  <div style="max-width: 960px; margin: 44px auto 0; padding: 0 32px;">
-    <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(28px, 3.2vw, 38px); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); text-align: center;">More</h2>
-    <hr style="border: none; border-top: 1px solid var(--rule); margin-top: 24px; width: 40%; margin-left: auto; margin-right: auto;" />
-  </div>
-  <div class="divider" style="margin-top: 0;">
-  </div>
-
-  <!-- CARDS -->
-  <div class="cards" style="padding-top: 34px;">
-    <a class="card" href="https://ripplexusf.github.io/schedule/" target="_self" rel="noopener noreferrer">
-      <div class="card-title">Schedule</div>
-      <div class="card-desc">The full two-day agenda.</div>
-      <div class="card-arrow">↗</div>
-    </a>
-
-    <a class="card" href="https://ripplexusf.github.io/links/" target="_self" rel="noopener noreferrer">
-      <div class="card-title">Resources</div>
-      <div class="card-desc">Docs, learning materials, and community resources for building on the ledger.</div>
-      <div class="card-arrow">↗</div>
-    </a>
-
-    <a class="card"  target="_self" rel="noopener noreferrer">
-      <div class="card-title">Contact Us</div>
-      <div class="card-desc">Any question? Please contact: <br> <br>Dr. EJ Jung<br><span class="__cf_email__" data-cfemail="c1a4abb4afa6f381b4b2a7a2a0efa4a5b4">[email&#160;protected]</span></div>
-    </a>
-  </div>
 
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
-      <div class="footer-l">
-        <img src="test2.png" alt="USF Law" style="height: 48px; width: auto;" />
+      <div class="footer-brand">
+        <img src="test2.png" alt="USF School of Law" />
       </div>
+      <div class="footer-links">
+        <a href="/docs/">Docs</a>
+        <a href="/links/">Resources</a>
+        <a href="/sample_code/">Code</a>
+        <a href="https://xrpl.org" target="_blank" rel="noopener noreferrer">XRPL.org &#x2197;</a>
+      </div>
+      <span class="footer-copy">University of San Francisco x Ripple</span>
     </div>
   </footer>
+
+</body>
+</html>
