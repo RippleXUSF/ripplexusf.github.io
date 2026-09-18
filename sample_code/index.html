@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XRPL Hackathon — Starter Kit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Sora:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:     #00543c;
+      --gold:      #c8922a;
+      --gold-lt:   #f5c84a;
+      --cream:     #faf8f4;
+      --paper:     #f2ece0;
+      --ink:       #141210;
+      --ink-2:     #4a4540;
+      --ink-3:     #9a9288;
+      --rule:      #ddd5c5;
+      --bg:        #faf8f4;
+      --surface:   #f2ece0;
+      --surface2:  #ede7d9;
+      --border:    #ddd5c5;
+      --text:      #141210;
+      --muted:     #4a4540;
+      --green-lt:  #00a86b;
+      --blue:      #1a6fa8;
+      --blue-dim:  rgba(26,111,168,0.08);
+      --red:       #c0392b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Sora', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── TOPBAR ─── */
+    .topbar {
+      background: var(--green);
+      border-bottom: 3px solid var(--gold);
+      position: relative; z-index: 200;
+    }
+    .topbar-inner {
+      max-width: 960px; margin: 0 auto; padding: 11px 32px;
+      display: grid; align-items: center;
+      grid-template-columns: 1fr 1fr;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+    .logos_divider {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; color: white; flex-shrink: 0;
+    }
+    .usf-shield-img { width: 48px; height: auto; }
+    .ripple-logo-wrap { width: 110px; }
+    .ripple-logo-wrap img { width: 100%; height: auto; }
+
+    /* ─── PAGE WRAPPER ─── */
+    .page { position: relative; z-index: 1; display: none; }
+    .page.active { display: block; }
+
+    /* ─── SHARED LAYOUT ─── */
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 32px; }
+
+    /* ─── HERO ─── */
+    .hero { padding: 64px 32px 48px; max-width: 960px; margin: 0 auto; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 18px;
+    }
+    .hero-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(34px, 5vw, 54px); font-weight: 900;
+      line-height: 1.1; color: var(--ink); margin-bottom: 18px; letter-spacing: -0.02em;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-sub { font-size: 16px; font-weight: 300; color: var(--ink-2); max-width: 540px; line-height: 1.65; margin-bottom: 28px; }
+    .hero-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid var(--border); background: var(--surface);
+      color: var(--muted); font-size: 12px; padding: 5px 12px; border-radius: 100px;
+    }
+    .dot { width: 6px; height: 6px; border-radius: 50%; }
+    .dot.g { background: var(--green-lt); }
+    .dot.o { background: var(--gold); }
+    .dot.b { background: var(--blue); }
+
+    /* ─── GUIDE PAGE layout ─── */
+    .guide-layout {
+      display: grid; grid-template-columns: 210px 1fr;
+      gap: 40px; align-items: start;
+      max-width: 960px; margin: 0 auto;
+      padding: 0 32px 80px;
+    }
+
+    /* sidebar */
+    .sidebar { position: sticky; top: 72px; display: flex; flex-direction: column; gap: 28px; }
+    .sb-group-label {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .sb-links { display: flex; flex-direction: column; gap: 2px; }
+    .sb-links a {
+      display: flex; align-items: center; gap: 8px;
+      text-decoration: none; color: var(--muted);
+      font-size: 13px; padding: 6px 10px; border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .sb-links a:hover { color: var(--gold); background: var(--surface2); }
+    .sb-links a.active { color: var(--gold); background: var(--surface2); }
+    .sb-num {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      background: var(--surface2); border-radius: 3px;
+      padding: 1px 5px; flex-shrink: 0; color: var(--muted);
+    }
+    .sb-links a.active .sb-num { background: rgba(200,146,42,0.15); color: var(--gold); }
+
+    /* main col */
+    .guide-main { display: flex; flex-direction: column; gap: 52px; }
+    .section { scroll-margin-top: 80px; }
+    .sec-head {
+      display: flex; align-items: baseline; gap: 12px;
+      margin-bottom: 18px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .sec-tag {
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+      color: var(--gold); background: rgba(200,146,42,0.1);
+      border: 1px solid rgba(200,146,42,0.2);
+      padding: 2px 8px; border-radius: 4px; flex-shrink: 0;
+    }
+    .sec-tag.blue { color: var(--blue); background: var(--blue-dim); border-color: rgba(14,165,233,0.2); }
+    .sec-tag.green { color: var(--green-lt); background: rgba(0,84,60,0.12); border-color: rgba(0,168,107,0.2); }
+    .section h2 { font-size: 21px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+    .section p  { color: var(--ink-2); margin-bottom: 12px; }
+    .section p:last-child { margin-bottom: 0; }
+    .section strong { color: var(--text); font-weight: 500; }
+    .section a { color: var(--blue); text-decoration: none; }
+    .section a:hover { text-decoration: underline; }
+
+    /* code */
+    pre {
+      background: var(--ink); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px 20px;
+      overflow-x: auto; margin: 12px 0;
+    }
+    pre code { font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.65; color: #c9d5e0; }
+    code {
+      font-family: 'IBM Plex Mono', monospace; font-size: 12.5px;
+      color: var(--green); background: rgba(0,84,60,0.08);
+      border: 1px solid rgba(0,84,60,0.18);
+      padding: 1px 6px; border-radius: 4px;
+    }
+    pre code { background: none; border: none; padding: 0; color: #c9d5e0; }
+
+    /* concept grid */
+    .concepts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+    .concept {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 14px 16px;
+    }
+    .c-key { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--blue); margin-bottom: 4px; }
+    .c-val { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* setup grid */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+    .box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 20px;
+    }
+    .box-label {
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 10px;
+    }
+    .box p { font-size: 12px; color: var(--muted); margin-top: 8px; margin-bottom: 0; }
+
+    /* step card */
+    .step-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; margin: 16px 0;
+    }
+    .step-head {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 22px; border-bottom: 1px solid var(--rule);
+      background: var(--surface2);
+    }
+    .step-circle {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: rgba(200,146,42,0.14); border: 1px solid rgba(200,146,42,0.28);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+      font-weight: 500; color: var(--gold); flex-shrink: 0;
+    }
+    .step-head h3 { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .step-head .step-path {
+      margin-left: auto; font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; color: var(--muted);
+    }
+    .step-body { padding: 18px 22px; }
+    .step-body p { color: var(--muted); margin-bottom: 10px; font-size: 14px; }
+
+    /* transaction flow */
+    .tx-flow { display: flex; gap: 0; margin: 14px 0; }
+    .tx-step {
+      flex: 1; background: var(--surface2); border: 1px solid var(--border);
+      padding: 10px 14px; text-align: center; position: relative;
+    }
+    .tx-step:not(:last-child)::after {
+      content: '→'; position: absolute; right: -10px; top: 50%;
+      transform: translateY(-50%); color: var(--gold); font-size: 12px;
+      z-index: 1; background: var(--bg); padding: 0 2px;
+    }
+    .tx-step:first-child { border-radius: 8px 0 0 8px; }
+    .tx-step:last-child  { border-radius: 0 8px 8px 0; }
+    .tx-n { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--gold); margin-bottom: 2px; }
+    .tx-l { font-size: 12px; color: var(--text); font-weight: 500; }
+    .tx-d { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* try box */
+    .try-box {
+      background: rgba(0,84,60,0.08); border: 1px solid rgba(0,168,107,0.14);
+      border-radius: 8px; padding: 14px 16px; margin-top: 12px;
+    }
+    .try-label {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--green-lt); margin-bottom: 8px;
+    }
+    .try-box ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .try-box li { color: var(--muted); font-size: 13px; padding-left: 16px; position: relative; }
+    .try-box li::before { content: '→'; position: absolute; left: 0; color: var(--green-lt); }
+    .try-box li strong { color: var(--text); }
+
+    /* notice */
+    .notice {
+      background: var(--blue-dim); border: 1px solid rgba(14,165,233,0.18);
+      border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #93c5fd;
+      margin: 12px 0; display: flex; gap: 10px; align-items: flex-start;
+    }
+
+    /* ─── SAMPLES PAGE ─── */
+    .samples-wrap { max-width: 960px; margin: 0 auto; padding: 0 32px 80px; }
+    .samples-section { margin-bottom: 48px; }
+    .samples-section h2 {
+      font-size: 18px; font-weight: 600; color: var(--ink);
+      margin-bottom: 6px; letter-spacing: -0.01em;
+    }
+    .samples-section > p { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+    .repo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+    .repo-card {
+      display: flex; flex-direction: column;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 20px;
+      text-decoration: none; transition: border-color 0.18s, background 0.18s;
+      position: relative; overflow: hidden;
+    }
+    .repo-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--card-accent, var(--blue)), transparent);
+      opacity: 0; transition: opacity 0.18s;
+    }
+    .repo-card:hover { border-color: rgba(255,255,255,0.13); background: var(--surface2); }
+    .repo-card:hover::before { opacity: 1; }
+    .repo-card.gold  { --card-accent: var(--gold); }
+    .repo-card.green { --card-accent: var(--green-lt); }
+    .repo-card.blue  { --card-accent: var(--blue); }
+    .repo-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .repo-label {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted);
+    }
+    .repo-badge {
+      font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+      padding: 2px 6px; border-radius: 3px;
+      background: rgba(200,146,42,0.12); border: 1px solid rgba(200,146,42,0.25);
+      color: var(--gold);
+    }
+    .repo-badge.devnet { background: rgba(14,165,233,0.1); border-color: rgba(14,165,233,0.25); color: var(--blue); }
+    .repo-name { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace; }
+    .repo-desc { font-size: 13px; color: var(--muted); line-height: 1.5; flex: 1; }
+    .repo-arrow { margin-top: 14px; font-size: 12px; color: var(--muted); transition: color 0.15s; }
+    .repo-card:hover .repo-arrow { color: var(--text); }
+
+    /* section divider */
+    .samples-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px; padding-top: 4px;
+    }
+    .samples-divider-line { flex: 1; height: 1px; background: var(--rule); }
+    .samples-divider-text {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    /* ─── ERRORS TABLE ─── */
+    .errors-wrap { max-width: 1160px; margin: 0 auto; padding: 0 32px 80px; }
+    .err-table { width: 100%; border-collapse: collapse; }
+    .err-table th {
+      text-align: left; padding: 8px 14px;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--muted); border-bottom: 1px solid var(--rule);
+    }
+    .err-table td { padding: 12px 14px; border-bottom: 1px solid var(--rule); font-size: 13px; vertical-align: top; }
+    .err-table td:first-child { font-family: 'IBM Plex Mono', monospace; color: var(--red); font-size: 12px; white-space: nowrap; }
+    .err-table td:nth-child(2) { color: var(--text); }
+    .err-table td:last-child  { color: var(--muted); }
+    .err-table tr:last-child td { border-bottom: none; }
+    .err-table tr:hover td { background: var(--surface); }
+
+    /* ─── LINKS PAGE ─── */
+    .links-wrap { max-width: 860px; margin: 0 auto; padding: 0 32px 80px; }
+    .link-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 40px; }
+    .link-card {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 18px; text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .link-card:hover { border-color: rgba(255,255,255,0.13); background: var(--surface2); }
+    .link-icon { font-size: 18px; flex-shrink: 0; width: 26px; text-align: center; }
+    .link-body { flex: 1; }
+    .link-name { font-size: 14px; font-weight: 500; color: var(--ink); }
+    .link-url  { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 1px; }
+    .link-ext  { font-size: 14px; color: var(--muted); }
+    .links-subhead {
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 10px; margin-top: 28px;
+    }
+
+    /* ─── PAGE HERO (non-home) ─── */
+    .page-hero {
+      max-width: 960px; margin: 0 auto;
+      padding: 48px 32px 32px;
+    }
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 42px); font-weight: 900;
+      color: var(--ink); letter-spacing: -0.02em; margin-bottom: 10px;
+    }
+    .page-hero h1 em { font-style: italic; color: var(--gold); }
+    .page-hero p { font-size: 15px; color: var(--ink-2); max-width: 520px; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--green);
+      border-top: 3px solid var(--gold);
+      margin-top: 60px;
+      position: relative; z-index: 1;
+      padding: 22px 32px;
+    }
+    .footer-inner {
+      max-width: 960px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 780px) {
+      .guide-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .two-col, .concepts { grid-template-columns: 1fr; }
+      .topbar-title { display: none; }
+      .tx-flow { flex-direction: column; }
+      .tx-step::after { display: none; }
+      .tx-step { border-radius: 6px; margin-bottom: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ TOPBAR ═══════════════ -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left logos">
+      <div class="usf-block" style="display:flex;align-items:center;">
+        <img class="usf-shield-img" src="university-of-san-francisco.jpg" alt="University of San Francisco" />
+      </div>
+      <span class="logos_divider">|</span>
+      <div class="ripple-logo-wrap">
+        <img src="full-ripple-logo.png" alt="Ripple" />
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:24px; justify-self:end;">
+      <a href="https://ripplexusf.github.io/" target="_self" rel="noopener noreferrer"
+         style="font-family:'IBM Plex Mono',monospace; font-size:16px;
+                color:rgba(255,255,255,0.9); letter-spacing:0.07em;
+                text-transform:uppercase; text-decoration:none; font-weight:600;">
+        Home
+      </a>
+      <a href="https://ripplexusf.github.io/links/" target="_self" rel="noopener noreferrer"
+         style="font-family:'IBM Plex Mono',monospace; font-size:16px;
+                color:rgba(255,255,255,0.9); letter-spacing:0.07em;
+                text-transform:uppercase; text-decoration:none; font-weight:600;">
+        Resources
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════ HOME PAGE ═══════════════ -->
+<div class="page active" id="page-home">
+
+  <div class="hero">
+    <div class="hero-eyebrow">Hackathon Starter Kit</div>
+    <h1>Build on the<br><em>XRP Ledger</em></h1>
+    <p class="hero-sub">
+      From zero to a working on-chain transaction in under 30 minutes.
+      No prior coding experience needed. All on Testnet — fake XRP, nothing real at stake.
+    </p>
+
+  </div>
+
+  <div class="wrap" style="padding-bottom: 80px;">
+
+    <!-- Quick start cards -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px;">
+
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; cursor: pointer;" onclick="showPage('guide')">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); margin-bottom:10px;">Start here</div>
+        <div style="font-size:18px; font-weight:600; color:var(--ink); margin-bottom:8px;">Starter Guide</div>
+        <div style="font-size:13px; color:var(--muted); line-height:1.5; margin-bottom:16px;">Step-by-step walkthrough of the three core samples. Setup, concepts, what to try.</div>
+        <div style="font-size:13px; color:var(--gold);">Open guide →</div>
+      </div>
+
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; cursor: pointer;" onclick="showPage('samples')">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--blue); margin-bottom:10px;">Explore</div>
+        <div style="font-size:18px; font-weight:600; color:var(--ink); margin-bottom:8px;">All Samples</div>
+        <div style="font-size:13px; color:var(--muted); line-height:1.5; margin-bottom:16px;">Browse all beginner-friendly repos from the official XRPL dev portal, organized by level.</div>
+        <div style="font-size:13px; color:var(--blue);">Browse samples →</div>
+      </div>
+
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--green-lt); margin-bottom:10px;">Official Docs</div>
+        <div style="font-size:18px; font-weight:600; color:var(--ink); margin-bottom:8px;">XRPL Tutorials</div>
+        <div style="font-size:13px; color:var(--muted); line-height:1.5; margin-bottom:16px;">The full official tutorial series from xrpl.org — payments, tokens, DeFi and more.</div>
+        <a href="https://xrpl.org/docs/tutorials" target="_blank" style="font-size:13px; color:var(--green-lt); text-decoration:none;">xrpl.org/docs/tutorials ↗</a>
+      </div>
+
+    </div>
+
+    <!-- The path -->
+    <div style="margin-bottom: 48px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;">The 30-minute path</div>
+      <div style="display: flex; gap: 0; flex-wrap: wrap;">
+
+        <div style="flex:1; min-width:180px; background:var(--surface); border:1px solid var(--border); padding:18px 20px; border-radius:10px 0 0 10px; position:relative;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--gold); margin-bottom:6px;">01</div>
+          <div style="font-size:14px; font-weight:600; color:var(--ink); margin-bottom:4px;">get-started</div>
+          <div style="font-size:12px; color:var(--muted);">Connect, create a wallet, read account info</div>
+          <div style="position:absolute; right:-10px; top:50%; transform:translateY(-50%); color:var(--gold); font-size:14px; z-index:2; padding:0 3px;">→</div>
+        </div>
+
+        <div style="flex:1; min-width:180px; background:var(--surface); border:1px solid var(--border); border-left:none; padding:18px 20px; position:relative;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--gold); margin-bottom:6px;">02</div>
+          <div style="font-size:14px; font-weight:600; color:var(--ink); margin-bottom:4px;">send-xrp</div>
+          <div style="font-size:12px; color:var(--muted);">Send a transaction — learn the core 4-step pattern</div>
+          <div style="position:absolute; right:-10px; top:50%; transform:translateY(-50%); color:var(--gold); font-size:14px; z-index:2; padding:0 3px;">→</div>
+        </div>
+
+        <div style="flex:1; min-width:180px; background:var(--surface); border:1px solid var(--border); border-left:none; padding:18px 20px; border-radius:0 10px 10px 0;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--gold); margin-bottom:6px;">03</div>
+          <div style="font-size:14px; font-weight:600; color:var(--ink); margin-bottom:4px;">get-tx</div>
+          <div style="font-size:12px; color:var(--muted);">Look up a transaction — verify it's final</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Two things to know -->
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:14px;">Two things to know before you code</div>
+    <div class="concepts">
+      <div class="concept">
+        <div class="c-key">Drops</div>
+        <div class="c-val">XRP on the ledger is in drops. <strong style="color:var(--text)">1 XRP = 1,000,000 drops.</strong> Use <code>xrpToDrops()</code> before sending, <code>dropsToXrp()</code> to display.</div>
+      </div>
+      <div class="concept">
+        <div class="c-key">tesSUCCESS</div>
+        <div class="c-val">Every transaction returns a result code. <strong style="color:var(--text)">tesSUCCESS</strong> = worked. Anything else = something went wrong.</div>
+      </div>
+    </div>
+
+    <!-- xrpl-py docs card -->
+    <div style="margin-top: 48px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:14px;">Python SDK Reference</div>
+      <a href="https://xrpl-py.readthedocs.io/en/latest/index.html" target="_blank" style="text-decoration:none;">
+        <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px; display:flex; align-items:flex-start; justify-content:space-between; gap:20px; transition:border-color 0.18s, background 0.18s; position:relative; overflow:hidden;"
+          onmouseover="this.style.background='var(--surface2)'; this.style.borderColor='rgba(255,255,255,0.13)'"
+          onmouseout="this.style.background='var(--surface)'; this.style.borderColor='var(--border)'">
+          <div style="position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, var(--blue), transparent);"></div>
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--blue); margin-bottom:10px;">Official Docs</div>
+            <div style="font-size:18px; font-weight:600; color:var(--ink); margin-bottom:8px;">xrpl-py API Reference</div>
+            <div style="font-size:13px; color:var(--muted); line-height:1.6; max-width:580px;">
+              The complete Python SDK documentation for xrpl-py — covering all clients, wallet utilities, transaction models, and helper functions. Use this to look up any class or method you encounter in the code samples.
+            </div>
+            <div style="margin-top:14px; font-size:13px; color:var(--blue);">xrpl-py.readthedocs.io ↗</div>
+          </div>
+          <div style="flex-shrink:0; background:var(--blue-dim); border:1px solid rgba(26,111,168,0.2); border-radius:8px; padding:10px 14px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--blue); white-space:nowrap; align-self:center;">
+            Python SDK
+          </div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════ GUIDE PAGE ═══════════════ -->
+<div class="page" id="page-guide">
+  <div class="page-hero">
+    <h1>Starter <em>Guide</em></h1>
+    <p>No coding experience needed. Follow each step exactly and you'll have run real blockchain code by the end.</p>
+  </div>
+
+  <div class="guide-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div>
+        <div class="sb-group-label">Before you start</div>
+        <div class="sb-links">
+          <a href="#setup" class="active">Setup</a>
+          <a href="#terminal">Using the terminal</a>
+          <a href="#concepts">Key concepts</a>
+        </div>
+      </div>
+      <div>
+        <div class="sb-group-label">Samples</div>
+        <div class="sb-links">
+          <a href="#step1"><span class="sb-num">01</span>get-started</a>
+          <a href="#step2"><span class="sb-num">02</span>send-xrp</a>
+          <a href="#step3"><span class="sb-num">03</span>get-tx</a>
+        </div>
+      </div>
+      <div style="margin-top: 8px;">
+        <button onclick="showPage('home')"
+          style="width:100%; display:flex; align-items:center; gap:8px;
+                 font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600;
+                 letter-spacing:0.05em; text-transform:uppercase;
+                 background:none; border:1.5px solid var(--rule); border-radius:4px;
+                 color:var(--ink-3); padding:8px 10px; cursor:pointer;
+                 transition:border-color 0.2s, color 0.2s;">
+          ← Back
+        </button>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="guide-main">
+
+      <!-- SETUP -->
+      <section class="section" id="setup">
+        <div class="sec-head">
+          <span class="sec-tag">Before you start</span>
+          <h2>Install Python</h2>
+        </div>
+
+        <p>Python is the programming language we'll use. Think of it as the engine — you need it installed before anything else will work.</p>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">1</div>
+            <h3>Download and install Python</h3>
+          </div>
+          <div class="step-body">
+            <p>Go to <a href="https://www.python.org/downloads/" target="_blank">python.org/downloads</a> and download the latest version. Run the installer. <strong>Important:</strong> on Windows, tick the box that says "Add Python to PATH" before clicking Install.</p>
+            <p>To check it installed correctly, open your terminal and type:</p>
+            <pre><code>python --version</code></pre>
+            <p>You should see something like <code>Python 3.12.0</code>. If you get an error, try <code>python3 --version</code> instead.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">2</div>
+            <h3>Download the sample code</h3>
+          </div>
+          <div class="step-body">
+            <p>We'll download three folders of sample code from GitHub. GitHub is a website where developers share code publicly — you don't need an account to download.</p>
+            <p>Go to <a href="https://download-directory.github.io" target="_blank">download-directory.github.io</a>. Paste each of these URLs into the box and click Download. You'll get a zip file each time — unzip them all into one folder on your computer.</p>
+            <div style="display:flex; flex-direction:column; gap:8px; margin:14px 0;">
+              <div style="background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:10px 14px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1a5fa8; word-break:break-all;">https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/get-started</div>
+              <div style="background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:10px 14px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1a5fa8; word-break:break-all;">https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/send-xrp</div>
+              <div style="background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:10px 14px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#1a5fa8; word-break:break-all;">https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/get-tx</div>
+            </div>
+            <p>Each download contains a folder. Inside each folder, find the subfolder called <code>py</code> — that's where the Python code lives. Your folder structure should look like this:</p>
+            <pre><code>my-xrpl-project/
+├── get-started/
+│   └── py/       ← work here
+├── send-xrp/
+│   └── py/       ← work here
+└── get-tx/
+    └── py/       ← work here</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- TERMINAL -->
+      <section class="section" id="terminal">
+        <div class="sec-head">
+          <span class="sec-tag">Before you start</span>
+          <h2>Using the terminal</h2>
+        </div>
+        <p>The terminal (also called the command line) is a text-based way to talk to your computer. It sounds intimidating but you only need three commands for this guide.</p>
+
+        <div class="concepts">
+          <div class="concept">
+            <div class="c-key">How to open it</div>
+            <div class="c-val"><strong style="color:var(--text)">Mac:</strong> press Cmd + Space, type "Terminal", hit Enter.<br><strong style="color:var(--text)">Windows:</strong> press the Windows key, type "cmd", hit Enter.</div>
+          </div>
+          <div class="concept">
+            <div class="c-key">cd — change directory</div>
+            <div class="c-val">Moves you into a folder. Like double-clicking a folder in Finder or Explorer, but with text.<br><code>cd get-started/py</code> moves into that folder.</div>
+          </div>
+          <div class="concept">
+            <div class="c-key">pip install</div>
+            <div class="c-val">Downloads and installs a Python library. A library is a bundle of pre-written code that you don't have to write yourself.<br><code>pip install xrpl-py</code> installs the XRPL library.</div>
+          </div>
+          <div class="concept">
+            <div class="c-key">python</div>
+            <div class="c-val">Runs a Python file.<br><code>python get-acct-info.py</code> runs the sample code.</div>
+          </div>
+        </div>
+
+        <div class="notice">
+          <span>ℹ</span>
+          <span>When you see a grey box with text in it, that's a command to type into your terminal. Type it exactly as shown and press Enter.</span>
+        </div>
+      </section>
+
+      <!-- CONCEPTS -->
+      <section class="section" id="concepts">
+        <div class="sec-head">
+          <span class="sec-tag">Before you start</span>
+          <h2>What is the XRP Ledger?</h2>
+        </div>
+        <p>The XRP Ledger is a blockchain — a shared record book that thousands of computers around the world keep in sync. No single company owns it. Once something is written to it, it cannot be changed or deleted.</p>
+        <p>Everything in this guide runs on the <strong>Testnet</strong> — a practice version of the ledger where the XRP has no real value. You can experiment freely without any financial risk.</p>
+
+        <div class="concepts">
+          <div class="concept">
+            <div class="c-key">Wallet</div>
+            <div class="c-val">Your identity on the ledger. It has a public <strong style="color:var(--text)">address</strong> (like an email address — safe to share) and a private <strong style="color:var(--text)">seed</strong> (like a password — never share this).</div>
+          </div>
+          <div class="concept">
+            <div class="c-key">Drops</div>
+            <div class="c-val">The smallest unit of XRP. <strong style="color:var(--text)">1 XRP = 1,000,000 drops.</strong> The ledger always uses drops internally. The code converts for you automatically.</div>
+          </div>
+          <div class="concept">
+            <div class="c-key">Transaction</div>
+            <div class="c-val">Any action that changes the ledger — sending XRP, creating a token, etc. Every transaction must be <strong style="color:var(--text)">signed</strong> with your private key before the network will accept it.</div>
+          </div>
+          <div class="concept">
+            <div class="c-key">tesSUCCESS</div>
+            <div class="c-val">The result code that means your transaction worked. If you see anything else, something went wrong — check the Errors tab for what each code means.</div>
+          </div>
+          <div class="concept">
+            <div class="c-key">Hash</div>
+            <div class="c-val">A unique fingerprint for a transaction — a long string of letters and numbers. Like a receipt number. You can use it to look up any transaction on the public explorer.</div>
+          </div>
+          <div class="concept">
+            <div class="c-key">Validated</div>
+            <div class="c-val">When a transaction is <strong style="color:var(--text)">validated</strong>, its result is final and permanent. It will never change. This is what makes blockchain different from a regular database.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 1: get-started -->
+      <section class="section" id="step1">
+        <div class="sec-head">
+          <span class="sec-tag">Sample 01</span>
+          <h2>get-started — Connect and read</h2>
+        </div>
+        <p>This sample connects to the XRP Ledger, creates a wallet (your identity on the blockchain), and reads that wallet's information back from the ledger. It's the "does everything work?" check.</p>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">1</div>
+            <h3>Install the XRPL library</h3>
+            <span class="step-path">get-started/py/</span>
+          </div>
+          <div class="step-body">
+            <p>In your terminal, navigate into the folder and install the library that lets Python talk to the XRP Ledger:</p>
+            <pre><code>cd get-started/py
+pip install xrpl-py</code></pre>
+            <p>You'll see a bunch of text as it downloads. Wait for it to finish.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">2</div>
+            <h3>Connect to the XRP Ledger</h3>
+          </div>
+          <div class="step-body">
+            <p>The code connects to the Testnet — the practice version of the ledger. <code>JsonRpcClient</code> is how Python sends requests to the ledger, like your browser sending requests to a website.</p>
+            <pre><code>from xrpl.clients import JsonRpcClient
+
+JSON_RPC_URL = "https://s.altnet.rippletest.net:51234"
+client = JsonRpcClient(JSON_RPC_URL)</code></pre>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">3</div>
+            <h3>Create and fund a wallet</h3>
+          </div>
+          <div class="step-body">
+            <p><code>generate_faucet_wallet()</code> does two things at once: creates a brand new wallet (address + private key) and automatically sends it 1,000 free test XRP from the "faucet" — a service that gives out fake XRP for testing. This takes a few seconds.</p>
+            <pre><code>from xrpl.wallet import generate_faucet_wallet
+
+test_wallet = generate_faucet_wallet(client, debug=True)</code></pre>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">4</div>
+            <h3>Read the account from the ledger</h3>
+          </div>
+          <div class="step-body">
+            <p>Now we ask the ledger "what do you know about this wallet?" — it returns account data including the balance. <code>ledger_index="validated"</code> means we only want confirmed, final data.</p>
+            <pre><code>from xrpl.models.requests import AccountInfo
+
+acct_info = AccountInfo(
+    account=test_wallet.address,
+    ledger_index="validated"
+)
+response = client.request(acct_info)
+print(response.result)</code></pre>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">5</div>
+            <h3>Run the file</h3>
+          </div>
+          <div class="step-body">
+            <pre><code>python get-acct-info.py</code></pre>
+            <div class="try-box">
+              <div class="try-label">What you should see — and what it means</div>
+              <ul>
+                <li>A wallet address starting with the letter <code>r</code> — this is your public identity on the ledger</li>
+                <li>A balance of <strong>1,000 XRP</strong> — the free test funds from the faucet</li>
+                <li>A block of data labelled <code>account_data</code> — this is everything the ledger knows about your wallet</li>
+                <li>Copy that address and open <strong>testnet.xrpl.org/accounts/YOUR_ADDRESS</strong> in your browser — you'll see the exact same information, live on the blockchain</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 2: send-xrp -->
+      <section class="section" id="step2">
+        <div class="sec-head">
+          <span class="sec-tag">Sample 02</span>
+          <h2>send-xrp — Send a payment</h2>
+        </div>
+        <p>This sample sends XRP from one wallet to another. Think of it like an online bank transfer — except instead of a bank processing it, thousands of computers around the world verify it simultaneously, and the record is permanent.</p>
+        <p>Every transaction on XRPL — whether you're sending XRP, creating a token, or minting an NFT — follows these exact same steps.</p>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">1</div>
+            <h3>Get a funded wallet</h3>
+            <span class="step-path">send-xrp/py/</span>
+          </div>
+          <div class="step-body">
+            <p>Navigate into the folder and install the library if you haven't already:</p>
+            <pre><code>cd send-xrp/py
+pip install xrpl-py</code></pre>
+            <p>The sample creates a wallet with free test XRP automatically — same as in Sample 01. You don't need to set anything up manually.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">2</div>
+            <h3>Connect to the Testnet</h3>
+          </div>
+          <div class="step-body">
+            <pre><code>import xrpl
+
+testnet_url = "https://s.altnet.rippletest.net:51234"
+client = xrpl.clients.JsonRpcClient(testnet_url)</code></pre>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">3</div>
+            <h3>Describe the payment</h3>
+          </div>
+          <div class="step-body">
+            <p>Here we write down what we want to do — who's sending, how much, and where it's going. <code>xrp_to_drops(22)</code> converts 22 XRP into drops (the unit the ledger uses internally). Think of it like converting dollars to cents before a bank processes them.</p>
+            <pre><code>my_payment = xrpl.models.transactions.Payment(
+    account=test_wallet.address,       # sender
+    amount=xrpl.utils.xrp_to_drops(22), # 22 XRP in drops
+    destination="rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe",  # receiver
+)</code></pre>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">4</div>
+            <h3>Sign the transaction</h3>
+          </div>
+          <div class="step-body">
+            <p>Signing proves the transaction came from you — like putting your signature on a cheque. Without it, the network won't accept the payment.</p>
+            <pre><code>signed_tx = xrpl.transaction.sign(my_payment, test_wallet)</code></pre>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">5</div>
+            <h3>Submit and wait for confirmation</h3>
+          </div>
+          <div class="step-body">
+            <p>This sends the signed transaction to the network and waits until it's confirmed — usually 4 to 7 seconds. During that time, the network's validators are reaching consensus on whether to accept it.</p>
+            <pre><code>tx_response = xrpl.transaction.submit_and_wait(my_payment, client, test_wallet)</code></pre>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">6</div>
+            <h3>Check the result</h3>
+          </div>
+          <div class="step-body">
+            <pre><code>print(tx_response.result["meta"]["TransactionResult"])  # tesSUCCESS</code></pre>
+            <div class="try-box">
+              <div class="try-label">What you should see — and what it means</div>
+              <ul>
+                <li><strong>tesSUCCESS</strong> — the transaction was accepted. The XRP has moved.</li>
+                <li>A <strong>transaction hash</strong> — a long string of letters and numbers. This is your permanent receipt.</li>
+                <li>Copy that hash and open <strong>testnet.xrpl.org/transactions/YOUR_HASH</strong> — you'll see the full record of the payment, permanently stored on the blockchain</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 3: get-tx -->
+      <section class="section" id="step3">
+        <div class="sec-head">
+          <span class="sec-tag">Sample 03</span>
+          <h2>get-tx — Look up a transaction</h2>
+        </div>
+        <p>This sample looks up any transaction by its hash and checks whether it's final. This is how you verify that a payment actually happened — useful if you're building anything where you need to confirm receipt of funds.</p>
+        <p>The key concept here is <strong>validated</strong>. On the XRP Ledger, a transaction that is validated is 100% final. It cannot be reversed, disputed, or changed by anyone.</p>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">1</div>
+            <h3>Set up and send a test payment</h3>
+            <span class="step-path">get-tx/py/</span>
+          </div>
+          <div class="step-body">
+            <pre><code>cd get-tx/py
+pip install xrpl-py</code></pre>
+            <p>The sample first sends a payment automatically (same as Sample 02) so there's a fresh transaction to look up. You don't need to do anything extra.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">2</div>
+            <h3>Look up the transaction by hash</h3>
+          </div>
+          <div class="step-body">
+            <p>We give the ledger a hash and it returns everything it knows about that transaction. A hash is like a tracking number — give it to anyone and they can look up the same record.</p>
+            <pre><code>from xrpl.models.requests import Tx
+
+tx_response = client.request(Tx(transaction="YOUR_HASH_HERE"))</code></pre>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-head">
+            <div class="step-circle">3</div>
+            <h3>Check that it's final</h3>
+          </div>
+          <div class="step-body">
+            <pre><code>print(tx_response.result["validated"])                      # True = permanent
+print(tx_response.result["meta"]["TransactionResult"])      # tesSUCCESS</code></pre>
+            <div class="try-box">
+              <div class="try-label">What you should see — and what it means</div>
+              <ul>
+                <li><strong>validated: True</strong> — this transaction is permanently recorded. No bank, government, or company can reverse it.</li>
+                <li><strong>tesSUCCESS</strong> — it succeeded. The funds moved as intended.</li>
+                <li>Take a hash from Sample 02 and look it up here — transactions on the ledger never disappear</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+  <div style="max-width: 960px; margin: 0 auto; padding: 32px 32px 64px;">
+    <button onclick="showPage('home')"
+      style="display:inline-flex; align-items:center; gap:8px;
+             font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600;
+             letter-spacing:0.05em; text-transform:uppercase;
+             background:none; border:1.5px solid var(--rule); border-radius:4px;
+             color:var(--ink-2); padding:10px 20px; cursor:pointer;
+             transition:border-color 0.2s, color 0.2s;">
+      ← Back
+    </button>
+  </div>
+
+
+</div>
+
+<!-- ═══════════════ SAMPLES PAGE ═══════════════ -->
+<div class="page" id="page-samples">
+  <div class="page-hero">
+    <h1>All <em>Samples</em></h1>
+    <p>Official repos from the XRPL dev portal, organized by difficulty. To download any folder, go to <a href="https://download-directory.github.io" target="_blank" style="color:var(--blue)">download-directory.github.io</a> and paste the GitHub URL.</p>
+  </div>
+
+  <div class="samples-wrap">
+
+    <div class="samples-section">
+      <div class="samples-divider"><div class="samples-divider-line"></div><div class="samples-divider-text">Core — start here</div><div class="samples-divider-line"></div></div>
+      <div class="repo-grid">
+        <a class="repo-card gold" href="https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/get-started" target="_blank">
+          <div class="repo-row"><div class="repo-label">Core</div></div>
+          <div class="repo-name">get-started</div>
+          <div class="repo-desc">Connect to the network, create a funded wallet, read account info from the ledger. The "does my setup work" check.</div>
+          <div class="repo-arrow">View on GitHub ↗</div>
+        </a>
+        <a class="repo-card gold" href="https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/send-xrp" target="_blank">
+          <div class="repo-row"><div class="repo-label">Core</div></div>
+          <div class="repo-name">send-xrp</div>
+          <div class="repo-desc">The full transaction lifecycle: prepare → sign → submit → verify. The pattern every XRPL transaction follows.</div>
+          <div class="repo-arrow">View on GitHub ↗</div>
+        </a>
+        <a class="repo-card gold" href="https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/get-tx" target="_blank">
+          <div class="repo-row"><div class="repo-label">Core</div></div>
+          <div class="repo-name">get-tx</div>
+          <div class="repo-desc">Look up any transaction by hash. Understand what <code>validated: true</code> means — and why it matters.</div>
+          <div class="repo-arrow">View on GitHub ↗</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="samples-section">
+      <div class="samples-divider"><div class="samples-divider-line"></div><div class="samples-divider-text">Optional — after the basics</div><div class="samples-divider-line"></div></div>
+      <div class="repo-grid">
+        <a class="repo-card blue" href="https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/batch" target="_blank">
+          <div class="repo-row"><div class="repo-label">Optional</div><div class="repo-badge devnet">Devnet</div></div>
+          <div class="repo-name">batch</div>
+          <div class="repo-desc">Group 2–8 transactions atomically. All succeed or none do. Uses Devnet, not Testnet.</div>
+          <div class="repo-arrow">View on GitHub ↗</div>
+        </a>
+        <a class="repo-card blue" href="https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/build-a-browser-wallet" target="_blank">
+          <div class="repo-row"><div class="repo-label">Optional</div><div class="repo-badge">Browser</div></div>
+          <div class="repo-name">build-a-browser-wallet</div>
+          <div class="repo-desc">Browser UI that monitors an address for incoming payments in real time. Open index.html directly.</div>
+          <div class="repo-arrow">View on GitHub ↗</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="samples-section">
+      <div class="samples-divider"><div class="samples-divider-line"></div><div class="samples-divider-text">Going further — good for hackathon ideas</div><div class="samples-divider-line"></div></div>
+      <div class="repo-grid">
+        <a class="repo-card green" href="https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/escrow" target="_blank">
+          <div class="repo-row"><div class="repo-label">Going further</div></div>
+          <div class="repo-name">escrow</div>
+          <div class="repo-desc">Lock XRP and release it on a time or condition. Great for trustless deals and conditional payments.</div>
+          <div class="repo-arrow">View on GitHub ↗</div>
+        </a>
+        <a class="repo-card green" href="https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/non-fungible-token" target="_blank">
+          <div class="repo-row"><div class="repo-label">Going further</div></div>
+          <div class="repo-name">non-fungible-token</div>
+          <div class="repo-desc">Mint, transfer, and burn NFTs on the XRP Ledger. Start of any NFT-based project.</div>
+          <div class="repo-arrow">View on GitHub ↗</div>
+        </a>
+        <a class="repo-card green" href="https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/issue-a-token" target="_blank">
+          <div class="repo-row"><div class="repo-label">Going further</div></div>
+          <div class="repo-name">issue-a-token</div>
+          <div class="repo-desc">Create your own fungible token (IOU) on the ledger. The foundation of DeFi on XRPL.</div>
+          <div class="repo-arrow">View on GitHub ↗</div>
+        </a>
+        <a class="repo-card green" href="https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/send-a-memo" target="_blank">
+          <div class="repo-row"><div class="repo-label">Going further</div></div>
+          <div class="repo-name">send-a-memo</div>
+          <div class="repo-desc">Attach arbitrary text data to any payment. Useful for receipts, provenance, or on-chain messages.</div>
+          <div class="repo-arrow">View on GitHub ↗</div>
+        </a>
+        <a class="repo-card green" href="https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/monitor-payments-websocket" target="_blank">
+          <div class="repo-row"><div class="repo-label">Going further</div></div>
+          <div class="repo-name">monitor-payments-websocket</div>
+          <div class="repo-desc">Watch an address for incoming payments live via WebSocket. No client library — raw protocol.</div>
+          <div class="repo-arrow">View on GitHub ↗</div>
+        </a>
+        <a class="repo-card green" href="https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/checks" target="_blank">
+          <div class="repo-row"><div class="repo-label">Going further</div></div>
+          <div class="repo-name">checks</div>
+          <div class="repo-desc">Create and cash checks — deferred payments the recipient claims when ready.</div>
+          <div class="repo-arrow">View on GitHub ↗</div>
+        </a>
+        <a class="repo-card green" href="https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/did" target="_blank">
+          <div class="repo-row"><div class="repo-label">Going further</div></div>
+          <div class="repo-name">did</div>
+          <div class="repo-desc">Create and manage decentralized identifiers on-chain. Relevant for identity and credential projects.</div>
+          <div class="repo-arrow">View on GitHub ↗</div>
+        </a>
+        <a class="repo-card green" href="https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples/price_oracles" target="_blank">
+          <div class="repo-row"><div class="repo-label">Going further</div></div>
+          <div class="repo-name">price_oracles</div>
+          <div class="repo-desc">Create and update on-chain price oracles. Useful for any trading or DeFi project idea.</div>
+          <div class="repo-arrow">View on GitHub ↗</div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center; padding:40px 32px 64px;">
+    <button onclick="showPage('home')"
+      style="display:inline-flex; align-items:center; gap:8px;
+             font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:500;
+             letter-spacing:0.05em; text-transform:uppercase;
+             background:none; border:1.5px solid var(--rule); border-radius:4px;
+             color:var(--ink-2); padding:10px 20px; cursor:pointer;
+             transition:border-color 0.2s, color 0.2s;">
+      ← Back
+    </button>
+  </div>
+</div>
+<div class="page" id="page-errors">
+  <div class="page-hero">
+    <h1>Common <em>Errors</em></h1>
+    <p>The errors you'll hit in the first hour. Reading them is the fastest way to learn — don't skip them.</p>
+  </div>
+
+  <div class="errors-wrap">
+    <table class="err-table">
+      <thead>
+        <tr><th>Code</th><th>What happened</th><th>Fix</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>tecNO_DST</td>
+          <td>Destination address doesn't exist on the ledger yet</td>
+          <td>Fund the destination wallet first — an address only exists after it receives XRP</td>
+        </tr>
+        <tr>
+          <td>temBAD_AMOUNT</td>
+          <td>Amount is zero, negative, or formatted wrong</td>
+          <td>Use a positive number and make sure you're passing a string of drops, not raw XRP</td>
+        </tr>
+        <tr>
+          <td>tecINSUF_FEE_P</td>
+          <td>Not enough XRP to cover the amount plus the transaction fee</td>
+          <td>Reduce the send amount or fund the wallet again via the faucet</td>
+        </tr>
+        <tr>
+          <td>tefPAST_SEQ</td>
+          <td>Sequence number has already been used</td>
+          <td>Don't reuse a signed blob — each signed transaction can only be submitted once</td>
+        </tr>
+        <tr>
+          <td>txnNotFound</td>
+          <td>The hash doesn't exist, or the transaction hasn't confirmed yet</td>
+          <td>Wait a few seconds and try again — or double-check the hash is correct</td>
+        </tr>
+        <tr>
+          <td>temBAD_FEE</td>
+          <td>Fee is too low or incorrectly formatted</td>
+          <td>Use <code>client.autofill()</code> — it sets the correct fee automatically</td>
+        </tr>
+        <tr>
+          <td>tecPATH_DRY</td>
+          <td>No path found between sender and destination for the currency</td>
+          <td>Usually happens with token payments — make sure a trust line exists first</td>
+        </tr>
+        <tr>
+          <td>terQUEUED</td>
+          <td>Transaction accepted but waiting in the queue</td>
+          <td>Not an error — just wait a few seconds, it will confirm shortly</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top: 32px; padding: 18px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Full reference</div>
+      <p style="font-size:13px; color:var(--muted);">Every possible result code is documented in the XRPL reference. The prefix tells you the category: <code>tes</code> = success, <code>tec</code> = failed (fee still charged), <code>tem</code> = malformed, <code>tef</code> = failure before entering ledger, <code>ter</code> = retryable.</p>
+      <a href="https://xrpl.org/docs/references/protocol/transactions/transaction-results" target="_blank" style="display:inline-block; margin-top:10px; font-size:13px; color:var(--blue); text-decoration:none;">Full transaction results reference ↗</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════ LINKS PAGE ═══════════════ -->
+<div class="page" id="page-links">
+  <div class="page-hero">
+    <h1>Useful <em>Links</em></h1>
+    <p>Everything you'll need during the hackathon.</p>
+  </div>
+
+  <div class="links-wrap">
+    <div class="links-subhead">Official docs & tutorials</div>
+    <div class="link-list">
+      <a class="link-card" href="https://xrpl.org/docs/tutorials" target="_blank">        <div class="link-body"><div class="link-name">XRPL Tutorials</div><div class="link-url">xrpl.org/docs/tutorials</div></div>
+        <span class="link-ext">↗</span>
+      </a>
+      <a class="link-card" href="https://js.xrpl.org" target="_blank">        <div class="link-body"><div class="link-name">xrpl.js API Reference</div><div class="link-url">js.xrpl.org</div></div>
+        <span class="link-ext">↗</span>
+      </a>
+      <a class="link-card" href="https://github.com/XRPLF/xrpl-dev-portal/tree/master/_code-samples" target="_blank">        <div class="link-body"><div class="link-name">All Official Code Samples</div><div class="link-url">github.com/XRPLF/xrpl-dev-portal/_code-samples</div></div>
+        <span class="link-ext">↗</span>
+      </a>
+    </div>
+
+    <div class="links-subhead">Dev tools</div>
+    <div class="link-list">
+      <a class="link-card" href="https://testnet.xrpl.org" target="_blank">        <div class="link-body"><div class="link-name">Testnet Explorer</div><div class="link-url">testnet.xrpl.org</div></div>
+        <span class="link-ext">↗</span>
+      </a>
+      <a class="link-card" href="https://download-directory.github.io" target="_blank">        <div class="link-body"><div class="link-name">Download GitHub Subfolder — grab any repo folder as a zip</div><div class="link-url">download-directory.github.io</div></div>
+        <span class="link-ext">↗</span>
+      </a>
+    </div>
+
+    <div class="links-subhead">Community</div>
+    <div class="link-list">
+      <a class="link-card" href="https://xrpldevs.org" target="_blank">        <div class="link-body"><div class="link-name">XRPL Developer Discord</div><div class="link-url">xrpldevs.org</div></div>
+        <span class="link-ext">↗</span>
+      </a>
+      <a class="link-card" href="https://learn.xrpl.org" target="_blank">        <div class="link-body"><div class="link-name">XRPL Learning Portal</div><div class="link-url">learn.xrpl.org</div></div>
+        <span class="link-ext">↗</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="footer-inner">
+    <img src="test2.png" alt="USF Law" style="height: 48px; width: auto;" />
+  </div>
+</footer>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.getElementById('tab-' + id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Sidebar scroll spy
+  const sections = document.querySelectorAll('#page-guide .section[id]');
+  const sbLinks  = document.querySelectorAll('.sb-links a[href^="#"]');
+
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        sbLinks.forEach(l => l.classList.remove('active'));
+        const match = document.querySelector(`.sb-links a[href="#${e.target.id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-25% 0px -65% 0px' });
+
+  sections.forEach(s => spy.observe(s));
+</script>
+</body>
+</html>

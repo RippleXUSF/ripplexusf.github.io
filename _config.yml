@@ -1,0 +1,6 @@
+title: USF × Ripple — XRPL Hackathon
+description: Monorepo for the USF × Ripple XRPL Hackathon — site pages, docs, and final projects.
+theme: minima
+exclude:
+  - Gemfile
+  - Gemfile.lock
