@@ -2,6 +2,5 @@ title: USF × Ripple — XRPL Hackathon
 description: Monorepo for the USF × Ripple XRPL Hackathon — site pages, docs, and final projects.
 theme: minima
 exclude:
-  - migrate.sh
-  - .superpowers/
-  - MONOREPO-PLAN.md
+  - Gemfile
+  - Gemfile.lock
